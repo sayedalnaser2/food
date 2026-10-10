@@ -49,7 +49,7 @@
       <label><span data-i18n="diet"></span>
         <select id="diet"><option value="any" data-i18n="diet_any"></option><option value="veg" data-i18n="diet_veg"></option><option value="vegan" data-i18n="diet_vegan"></option></select></label>
       <label><span data-i18n="cuisine"></span>
-        <select id="cuisine"><option value="any" data-i18n="cuisine_any"></option><option value="arabic" data-i18n="cuisine_arabic_only"></option></select></label>
+        <select id="cuisine"></select></label>
       <label><span data-i18n="snacks"></span>
         <select id="snacks"><option value="0" data-i18n="snacks_none"></option><option value="1" selected>1</option><option value="2">2</option></select></label>
     </div>
@@ -73,6 +73,7 @@
     <label class="check"><input type="checkbox" id="pall" checked> <span data-i18n="only_ok"></span></label>
   </div>
   <div id="plist" class="rlist"></div>
+  <div id="pmore" class="morerow"></div>
 </section>
 
 <section id="results" hidden>
@@ -105,15 +106,16 @@
 </section>
 
 <section id="recipes" class="card">
-  <h2 data-i18n="recipes_h"></h2>
+  <h2><span data-i18n="recipes_h"></span> <span id="rcount" class="muted"></span></h2>
   <div class="filters">
     <input id="q" type="search" data-i18n-ph="search_ph">
     <select id="fmeal"><option value="" data-i18n="all_meals"></option><option value="breakfast" data-i18n="breakfast"></option><option value="lunch" data-i18n="lunch"></option><option value="dinner" data-i18n="dinner"></option><option value="snack" data-i18n="snack"></option></select>
-    <select id="fcuisine"><option value="" data-i18n="all_cuisines"></option><option value="arabic" data-i18n="arabic"></option></select>
+    <select id="fcuisine"></select>
     <select id="fpref"><option value="" data-i18n="pref_all"></option><option value="liked" data-i18n="pref_liked"></option><option value="hide" data-i18n="pref_hide"></option></select>
     <select id="fdiet"><option value="any" data-i18n="any_diet"></option><option value="veg" data-i18n="diet_veg"></option><option value="vegan" data-i18n="diet_vegan"></option></select>
   </div>
   <div id="rlist" class="rlist"></div>
+  <div id="rmore" class="morerow"></div>
 </section>
 </main>
 
@@ -130,6 +132,7 @@
 <script src="data2.js"></script>
 <script src="data3.js"></script>
 <script src="ar.js"></script>
+<script src="gen.js"></script>
 <script src="i18n.js"></script>
 <script src="app.js"></script>
 </body>

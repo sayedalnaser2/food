@@ -53,6 +53,7 @@ const I18N = {
     t_vegan: "vegan", t_veg: "vegetarian", t_meat: "contains meat/fish",
     alert_bad: "Please enter realistic values (age 15+, valid height and weight).",
     close: "Close", less: "Less", more: "More",
+    show_more: (n) => `Show more (${n} left)`,
     lang_btn: "العربية",
   },
   ar: {
@@ -108,6 +109,7 @@ const I18N = {
     t_vegan: "نباتي صرف", t_veg: "نباتي", t_meat: "يحتوي على لحم/سمك",
     alert_bad: "الرجاء إدخال قيم واقعية (العمر 15 فأكثر، وطول ووزن صحيحان).",
     close: "إغلاق", less: "أقل", more: "أكثر",
+    show_more: (n) => `عرض المزيد (باقي ${n})`,
     lang_btn: "English",
   },
 };

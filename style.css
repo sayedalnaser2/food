@@ -105,3 +105,5 @@ input[type=number]{direction:ltr}
 :root[lang="ar"] body{font-family:"Noto Sans Arabic",Tahoma,"Segoe UI",system-ui,sans-serif}
 :root[lang="ar"] .tag,:root[lang="ar"] h4{letter-spacing:0;text-transform:none}
 .ings.edit .unit{width:2.6em}
+
+.morerow{display:flex;justify-content:center;margin-top:14px}

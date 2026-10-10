@@ -9,8 +9,9 @@ const t = (k, ...a) => { const v = (I18N[lang][k] ?? I18N.en[k] ?? k); return ty
 const AR = () => lang === "ar";
 const iname = (k) => (AR() ? AR_ING[k] : INGREDIENTS[k].n);
 const iShort = (k) => (AR() ? AR_ING[k] : INGREDIENTS[k].n.replace(/ \(raw weight\)|cooked |, drained/g, "")).replace(/^./, (c) => c.toUpperCase());
-const rname = (r) => (AR() ? AR_REC[r.id].n : r.name);
-const rsteps = (r) => (AR() ? AR_REC[r.id].s : r.steps);
+const rname = (r) => (AR() ? (r.ar || AR_REC[r.id].n) : r.name);
+const rsteps = (r) => (r.stepsFn ? r.stepsFn(lang) : AR() ? AR_REC[r.id].s : r.steps);
+const cuName = (id) => { const c = CUISINES.find((x) => x.id === id); return c ? (AR() ? c.ar : c.en) : id; };
 const pname = (k) => (AR() ? AR_PIECE[k] : INGREDIENTS[k].pn);
 const unit = (k) => (INGREDIENTS[k].ml ? t("ml") : t("g"));
 const macLine = (n) => `<b>${round(n.kcal)}</b> ${t("kcal")} · ${t("carbs")} ${round(n.c)} ${t("g")} · ${t("protein")} ${round(n.p)} ${t("g")} · ${t("fat")} ${round(n.f)} ${t("g")}`;
@@ -42,7 +43,7 @@ function setPref(id, v) {
   }
   if (M) { const el = $("mprefs"); if (el) el.innerHTML = prefBtns(M.r.id); }
   if (week.length) renderPlan();
-  applyLang();
+  renderAll(); renderPantry();
 }
 const sortByPref = (a, b) => (prefs[b.id] || 0) - (prefs[a.id] || 0);
 
@@ -111,25 +112,49 @@ function slots(snacks) {
     : snacks === 1 ? [["breakfast", .25], ["lunch", .33], ["dinner", .30], ["snack", .12]]
     : [["breakfast", .23], ["lunch", .30], ["dinner", .30], ["snack", .085], ["snack", .085]];
 }
-function pickRecipe(meal, kcalTarget, used, exclude = []) {
+const poolCache = new Map();
+function recipePool(meal) {
+  const key = `${meal}|${profile.diet}|${profile.cuisine || "any"}`;
+  if (poolCache.has(key)) return poolCache.get(key);
+  const ok = (r) => r.meal === meal && dietOK(r, profile.diet);
+  let list = RECIPES.filter((r) => ok(r) && (!profile.cuisine || profile.cuisine === "any" || r.cuisine === profile.cuisine));
+  // some cuisines have no breakfasts or snacks of their own: fall back to everyday recipes
+  if (list.length < 3) list = RECIPES.filter((r) => ok(r) && (r.cuisine === "everyday" || r.cuisine === profile.cuisine));
+  const pool = { list, p: new Float32Array(list.length), c: new Float32Array(list.length), f: new Float32Array(list.length), k: new Float32Array(list.length) };
+  list.forEach((r, i) => { const n = perServing(r); pool.p[i] = n.p * 4 / n.kcal; pool.c[i] = n.c * 4 / n.kcal; pool.f[i] = n.f * 9 / n.kcal; pool.k[i] = n.kcal; });
+  poolCache.set(key, pool);
+  return pool;
+}
+// The k best-scoring recipes for a meal slot (macro balance, portion size, variety, likes, pantry).
+function candidates(meal, kcalTarget, used, k, exclude = []) {
   const share = { p: targets.p * 4 / targets.kcal, c: targets.c * 4 / targets.kcal, f: targets.f * 9 / targets.kcal };
   const bias = $("usepantry").checked && pantry.size > 0;
-  const pool = RECIPES.filter((r) => r.meal === meal && dietOK(r, profile.diet) && !exclude.includes(r.id) && (profile.cuisine !== "arabic" || r.cuisine === "arabic"));
-  const allowed = pool.filter((r) => prefs[r.id] !== -1);
-  if (allowed.length) pool.splice(0, pool.length, ...allowed);
-  const scored = pool.map((r) => {
-    const n = perServing(r), f = Math.min(3, Math.max(.5, kcalTarget / n.kcal));
-    const s = { p: n.p * 4 / n.kcal, c: n.c * 4 / n.kcal, f: n.f * 9 / n.kcal };
-    let score = Math.abs(s.p - share.p) + Math.abs(s.c - share.c) + Math.abs(s.f - share.f)
-      + (used[r.id] || 0) * .2 + Math.abs(Math.log(f)) * .15;
-    if (bias) score -= pantryMatch(r).ratio * .7;
-    if (prefs[r.id] === 1) score -= .5;
-    return { r, score, f: Math.round(f * 4) / 4 };
-  }).sort((a, b) => a.score - b.score);
-  const top = scored.slice(0, Math.min(3, scored.length));
+  const pool = recipePool(meal);
+  const run = (skipDislikes) => {
+    const top = [];
+    for (let i = 0; i < pool.list.length; i++) {
+      const r = pool.list[i];
+      if (exclude.length && exclude.includes(r.id)) continue;
+      if (skipDislikes && prefs[r.id] === -1) continue;
+      const f = Math.min(3, Math.max(.5, kcalTarget / pool.k[i]));
+      let score = Math.abs(pool.p[i] - share.p) + Math.abs(pool.c[i] - share.c) + Math.abs(pool.f[i] - share.f) + (used[r.id] || 0) * .2 + Math.abs(f - 1) * .1;
+      if (bias) score -= pantryMatch(r).ratio * .7;
+      if (prefs[r.id] === 1) score -= .5;
+      if (top.length < k || score < top[top.length - 1].score) {
+        top.push({ r, score, f }); top.sort((x, y) => x.score - y.score); if (top.length > k) top.pop();
+      }
+    }
+    return top;
+  };
+  let top = run(true);
+  if (!top.length) top = run(false);
+  return top;
+}
+function pickRecipe(meal, kcalTarget, used, exclude = []) {
+  const top = candidates(meal, kcalTarget, used, 3, exclude);
   const c = top[Math.floor(Math.random() * top.length)];
   used[c.r.id] = (used[c.r.id] || 0) + 1;
-  return { id: c.r.id, meal, servings: c.f, target: kcalTarget };
+  return { id: c.r.id, meal, servings: Math.round(c.f * 4) / 4, target: kcalTarget };
 }
 // Rescale one day's servings so its calories hit the target (servings stay in 0.25 steps).
 function calibrateDay(d) {
@@ -143,12 +168,18 @@ function dayError(d) {
 }
 function buildWeek() {
   const used = {};
-  // for each day, try many random combinations and keep the one closest to the calorie and macro targets
   week = Array.from({ length: 7 }, () => {
+    // shortlist the best recipes for each slot once, then try many random combinations of them
+    const sl = slots(profile.snacks).map(([m, sh]) => ({ m, target: targets.kcal * sh, c: candidates(m, targets.kcal * sh, used, 10) }));
     let best = null, bestErr = Infinity;
     for (let i = 0; i < 40; i++) {
-      const u = { ...used };
-      const d = slots(profile.snacks).map(([m, sh]) => pickRecipe(m, targets.kcal * sh, u));
+      const seen = new Set();
+      const d = sl.map((s) => {
+        let c = s.c[Math.floor(Math.random() * s.c.length)];
+        for (let tries = 0; seen.has(c.r.id) && tries < 5; tries++) c = s.c[Math.floor(Math.random() * s.c.length)];
+        seen.add(c.r.id);
+        return { id: c.r.id, meal: s.m, servings: Math.round(c.f * 4) / 4, target: s.target };
+      });
       calibrateDay(d);
       const err = dayError(d);
       if (err < bestErr) { best = d; bestErr = err; }
@@ -158,7 +189,8 @@ function buildWeek() {
   });
   day = 0;
 }
-const recipeById = (id) => RECIPES.find((r) => r.id === id);
+const RECIPE_MAP = new Map(RECIPES.map((r) => [r.id, r]));
+const recipeById = (id) => RECIPE_MAP.get(id);
 function nutFromAmounts(r, amt) {
   const t = { kcal: 0, p: 0, c: 0, f: 0 };
   for (const [k] of r.ing) {
@@ -213,7 +245,7 @@ function openRecipe(id, servings = 1, ref = null) {
   const pm = pantry.size ? pantryMatch(r) : null;
   const dietTag = r.diet === "vegan" ? t("t_vegan") : r.diet === "veg" ? t("t_veg") : t("t_meat");
   $("mbody").innerHTML = `
-    <div class="mhead"><span class="big">${r.emoji}</span><div><small class="tag">${r.cuisine === "arabic" ? t("arabic") + " · " : ""}${t(r.meal)} · ${dietTag}</small>
+    <div class="mhead"><span class="big">${r.emoji}</span><div><small class="tag">${cuName(r.cuisine)} · ${t(r.meal)} · ${dietTag}</small>
     <h2 id="mtitle">${rname(r)}</h2><p class="muted">${r.time} ${t("min")}</p><span id="mprefs">${prefBtns(r.id)}</span></div></div>
     <div class="mmac"><div><b id="mk"></b>${t("kcal")}</div><div><b id="mc"></b>${t("carbs")}</div><div><b id="mp"></b>${t("protein")}</div><div><b id="mf"></b>${t("fat")}</div></div>
     <div class="servrow"><label>${t("m_servings")}
@@ -262,16 +294,20 @@ const closeModal = () => { if ($("modal").hidden) return; $("modal").hidden = tr
 function card(r, extra = "") {
   const n = perServing(r);
   return `<article class="rcard${prefs[r.id] === -1 ? " disliked" : ""}" data-open="${r.id}" data-serv="1" tabindex="0">
-    <div class="emoji">${r.emoji}</div><div class="mbody"><small class="tag">${r.cuisine === "arabic" ? t("arabic") + " · " : ""}${t(r.meal)}${r.diet !== "any" ? " · " + (r.diet === "veg" ? t("t_veg") : t("t_vegan")) : ""}</small>
+    <div class="emoji">${r.emoji}</div><div class="mbody"><small class="tag">${cuName(r.cuisine)} · ${t(r.meal)}${r.diet !== "any" ? " · " + (r.diet === "veg" ? t("t_veg") : t("t_vegan")) : ""}</small>
     <h3>${rname(r)}</h3><p class="mac">${macLine(n)}</p>${extra}${prefBtns(r.id)}</div></article>`;
 }
+const PAGE = 48;
+let shownAll = PAGE, shownPantry = PAGE;
 function renderAll() {
   const q = $("q").value.trim().toLowerCase(), m = $("fmeal").value, d = $("fdiet").value, cu = $("fcuisine").value;
   const list = RECIPES.filter((r) => (!m || r.meal === m) && dietOK(r, d) && (!cu || r.cuisine === cu) &&
-    (!q || r.name.toLowerCase().includes(q) || AR_REC[r.id].n.includes(q) || r.ing.some(([k]) => INGREDIENTS[k].n.includes(q) || AR_ING[k].includes(q))));
+    (!q || r.name.toLowerCase().includes(q) || (r.ar || AR_REC[r.id].n).includes(q) || r.ing.some(([k]) => INGREDIENTS[k].n.includes(q) || AR_ING[k].includes(q))));
   const fp = $("fpref").value;
   const shown = list.filter((r) => fp === "liked" ? prefs[r.id] === 1 : fp === "hide" ? prefs[r.id] !== -1 : true).sort(sortByPref);
-  $("rlist").innerHTML = shown.map((r) => card(r)).join("") || `<p class="muted">${t("no_match")}</p>`;
+  $("rlist").innerHTML = shown.slice(0, shownAll).map((r) => card(r)).join("") || `<p class="muted">${t("no_match")}</p>`;
+  $("rmore").innerHTML = shown.length > shownAll ? `<button type="button" class="ghost" data-more="all">${t("show_more", shown.length - shownAll)}</button>` : "";
+  $("rcount").textContent = `(${shown.length})`;
 }
 function renderPantry() {
   $("pantrygroups").innerHTML = Object.entries(GROUPS).map(([g, keys]) =>
@@ -279,15 +315,16 @@ function renderPantry() {
       `<button type="button" class="chip${pantry.has(k) ? " on" : ""}" data-ing="${k}">${iShort(k)}</button>`).join("")}</div></div>`).join("");
   const m = $("pmeal").value, d = $("pdiet").value, onlyOK = $("pall").checked;
   let list = RECIPES.filter((r) => (!m || r.meal === m) && dietOK(r, d)).map((r) => ({ r, pm: pantryMatch(r) }));
-  if (onlyOK) list = list.filter((x) => x.pm.ratio >= 0.6 && pantry.size);
+  if (onlyOK) list = list.filter((x) => x.pm.ratio >= 0.5 && pantry.size);
   list.sort((a, b) => b.pm.ratio - a.pm.ratio || a.pm.missing.length - b.pm.missing.length);
   $("pcount").textContent = pantry.size ? `(${list.length})` : "";
+  $("pmore").innerHTML = pantry.size && list.length > shownPantry ? `<button type="button" class="ghost" data-more="pantry">${t("show_more", list.length - shownPantry)}</button>` : "";
   $("plist").innerHTML = !pantry.size ? `<p class="muted">${t("pick_some")}</p>`
-    : list.map(({ r, pm }) => card(r, `<p class="match ${pm.missing.length === 0 ? "full" : ""}">${pm.missing.length === 0 ? t("have_all") : t("need", pm.have, pm.total, pm.missing.map(iShort).join(AR() ? "، " : ", "))}</p>`)).join("")
+    : list.slice(0, shownPantry).map(({ r, pm }) => card(r, `<p class="match ${pm.missing.length === 0 ? "full" : ""}">${pm.missing.length === 0 ? t("have_all") : t("need", pm.have, pm.total, pm.missing.map(iShort).join(AR() ? "، " : ", "))}</p>`)).join("")
       || `<p class="muted">${t("nothing_yet")}</p>`;
 }
 function afterPantryChange() {
-  store.set("pantry", [...pantry]); renderPantry();
+  store.set("pantry", [...pantry]); shownPantry = PAGE; renderPantry();
   if (week.length) renderPlan();
 }
 
@@ -342,6 +379,8 @@ $("greset").addEventListener("click", () => {
 $("shuffle").addEventListener("click", () => { buildWeek(); renderPlan(); });
 $("days").addEventListener("click", (e) => { const b = e.target.closest("[data-day]"); if (b) { day = +b.dataset.day; renderPlan(); } });
 document.addEventListener("click", (e) => {
+  const mb = e.target.closest("[data-more]");
+  if (mb) { if (mb.dataset.more === "all") { shownAll += PAGE * 2; renderAll(); } else { shownPantry += PAGE * 2; renderPantry(); } return; }
   const pf = e.target.closest("[data-pref]");
   if (pf) { e.stopPropagation(); setPref(pf.dataset.pref, +pf.dataset.v); return; }
   const sw = e.target.closest("[data-swap]");
@@ -384,13 +423,22 @@ document.addEventListener("keydown", (e) => {
 $("mclose").addEventListener("click", closeModal);
 $("modal").addEventListener("click", (e) => { if (e.target === $("modal")) closeModal(); });
 $("clearpantry").addEventListener("click", () => { pantry.clear(); afterPantryChange(); });
-["pmeal", "pdiet", "pall"].forEach((id) => $(id).addEventListener("change", renderPantry));
+["pmeal", "pdiet", "pall"].forEach((id) => $(id).addEventListener("change", () => { shownPantry = PAGE; renderPantry(); }));
 $("usepantry").addEventListener("change", () => { if (week.length) { buildWeek(); renderPlan(); } });
-["q", "fmeal", "fdiet", "fcuisine", "fpref"].forEach((id) => $(id).addEventListener("input", renderAll));
+["q", "fmeal", "fdiet", "fcuisine", "fpref"].forEach((id) => $(id).addEventListener("input", () => { shownAll = PAGE; renderAll(); }));
 
 function setUnitLabels() {
   const imp = $("units").value === "imperial";
   $("wlabel").textContent = t(imp ? "weight_lb" : "weight_kg"); $("hlabel").textContent = t(imp ? "height_in" : "height_cm");
+}
+// ---------- cuisines ----------
+function fillCuisines() {
+  const fill = (id, allKey, allVal) => {
+    const sel = $(id), cur = sel.value;
+    sel.innerHTML = `<option value="${allVal}">${t(allKey)}</option>` + CUISINES.map((c) => `<option value="${c.id}">${AR() ? c.ar : c.en}</option>`).join("");
+    sel.value = [...sel.options].some((o) => o.value === cur) ? cur : allVal;
+  };
+  fill("cuisine", "cuisine_any", "any"); fill("fcuisine", "all_cuisines", "");
 }
 // ---------- language ----------
 function applyLang() {
@@ -400,12 +448,13 @@ function applyLang() {
   document.querySelectorAll("[data-i18n]").forEach((el) => (el.textContent = t(el.dataset.i18n)));
   document.querySelectorAll("[data-i18n-html]").forEach((el) => (el.innerHTML = t(el.dataset.i18nHtml)));
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => (el.placeholder = t(el.dataset.i18nPh)));
+  fillCuisines();
   $("mclose").setAttribute("aria-label", t("close"));
   setUnitLabels();
   closeModal();
   if (targets) showTargets();
   if (week.length) renderPlan();
-  applyLang();
+  renderAll(); renderPantry();
 }
 $("lang").addEventListener("click", () => { lang = AR() ? "en" : "ar"; store.set("lang", lang); applyLang(); });
 
@@ -414,8 +463,10 @@ const saved = store.get("profile", null);
 if (saved) {
   $("units").value = saved.units; $("sex").value = saved.sex; $("age").value = saved.age;
   $("height").value = saved.rawH; $("weight").value = saved.rawW; $("activity").value = String(saved.act);
-  $("goal").value = saved.goal; $("diet").value = saved.diet; $("cuisine").value = saved.cuisine || "any"; $("snacks").value = String(saved.snacks);
+  $("goal").value = saved.goal; $("diet").value = saved.diet; window.__savedCuisine = saved.cuisine || "any"; $("snacks").value = String(saved.snacks);
   const imp = saved.units === "imperial";
   setUnitLabels();
 }
+fillCuisines();
+if (window.__savedCuisine) $("cuisine").value = window.__savedCuisine;
 applyLang();
