@@ -14,8 +14,23 @@ const store = {
   get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
 };
+let prefs = store.get("prefs", {}); // recipe id -> 1 (like) | -1 (dislike)
 let pantry = new Set(store.get("pantry", []));
 let profile = null, targets = null, week = [], day = 0;
+
+// ---------- likes / dislikes ----------
+const prefBtns = (id) => `<span class="prefs"><button type="button" class="pref${prefs[id] === 1 ? " on up" : ""}" data-pref="${id}" data-v="1" aria-label="Like" aria-pressed="${prefs[id] === 1}" title="Like: shows up more often">👍</button><button type="button" class="pref${prefs[id] === -1 ? " on down" : ""}" data-pref="${id}" data-v="-1" aria-label="Dislike" aria-pressed="${prefs[id] === -1}" title="Dislike: never suggested in plans">👎</button></span>`;
+function setPref(id, v) {
+  if (prefs[id] === v) delete prefs[id]; else prefs[id] = v;
+  store.set("prefs", prefs);
+  if (v === -1 && prefs[id] === -1 && week.length) { // swap out any planned meal using it
+    week.forEach((d, di) => d.forEach((e, i) => { if (e.id === id) d[i] = pickRecipe(e.meal, e.target, {}, [id]); }));
+  }
+  if (M) { const el = $("mprefs"); if (el) el.innerHTML = prefBtns(M.r.id); }
+  if (week.length) renderPlan();
+  renderAll(); renderPantry();
+}
+const sortByPref = (a, b) => (prefs[b.id] || 0) - (prefs[a.id] || 0);
 
 // ---------- nutrition helpers ----------
 function perServing(r) {
@@ -96,12 +111,15 @@ function pickRecipe(meal, kcalTarget, used, exclude = []) {
   const share = { p: targets.p * 4 / targets.kcal, c: targets.c * 4 / targets.kcal, f: targets.f * 9 / targets.kcal };
   const bias = $("usepantry").checked && pantry.size > 0;
   const pool = RECIPES.filter((r) => r.meal === meal && dietOK(r, profile.diet) && !exclude.includes(r.id) && (profile.cuisine !== "arabic" || r.cuisine === "arabic"));
+  const allowed = pool.filter((r) => prefs[r.id] !== -1);
+  if (allowed.length) pool.splice(0, pool.length, ...allowed);
   const scored = pool.map((r) => {
     const n = perServing(r), f = Math.min(2, Math.max(.5, kcalTarget / n.kcal));
     const s = { p: n.p * 4 / n.kcal, c: n.c * 4 / n.kcal, f: n.f * 9 / n.kcal };
     let score = Math.abs(s.p - share.p) + Math.abs(s.c - share.c) + Math.abs(s.f - share.f)
       + (used[r.id] || 0) * .2 + Math.abs(Math.log(f)) * .15;
     if (bias) score -= pantryMatch(r).ratio * .7;
+    if (prefs[r.id] === 1) score -= .5;
     return { r, score, f: Math.round(f * 4) / 4 };
   }).sort((a, b) => a.score - b.score);
   const top = scored.slice(0, Math.min(3, scored.length));
@@ -153,7 +171,7 @@ function renderPlan() {
       </div>
       <div class="acts"><button class="ghost" data-open="${r.id}" data-ref="${i}">Recipe</button>
       <button class="ghost edit" data-open="${r.id}" data-ref="${i}" data-edit="1">✏️ Edit amounts</button>
-      <button class="ghost" data-swap="${i}">Swap</button></div></article>`;
+      <button class="ghost" data-swap="${i}">Swap</button>${prefBtns(r.id)}</div></article>`;
   }).join("");
 }
 
@@ -170,7 +188,7 @@ function openRecipe(id, servings = 1, ref = null) {
   const pm = pantry.size ? pantryMatch(r) : null;
   $("mbody").innerHTML = `
     <div class="mhead"><span class="big">${r.emoji}</span><div><small class="tag">${r.cuisine === "arabic" ? "Arabic · " : ""}${r.meal} · ${r.diet === "vegan" ? "vegan" : r.diet === "veg" ? "vegetarian" : "contains meat/fish"}</small>
-    <h2 id="mtitle">${r.name}</h2><p class="muted">${r.time} min</p></div></div>
+    <h2 id="mtitle">${r.name}</h2><p class="muted">${r.time} min</p><span id="mprefs">${prefBtns(r.id)}</span></div></div>
     <div class="mmac"><div><b id="mk"></b>kcal</div><div><b id="mc"></b>carbs</div><div><b id="mp"></b>protein</div><div><b id="mf"></b>fat</div></div>
     <div class="servrow"><label>Servings
       <span class="step big"><button type="button" id="sdn" aria-label="Fewer servings">−</button><input id="sinp" type="number" min="0.25" max="10" step="0.25"><button type="button" id="sup" aria-label="More servings">+</button></span></label>
@@ -217,15 +235,17 @@ const closeModal = () => { if ($("modal").hidden) return; $("modal").hidden = tr
 // ---------- recipe lists ----------
 function card(r, extra = "") {
   const n = perServing(r);
-  return `<article class="rcard" data-open="${r.id}" data-serv="1" tabindex="0">
+  return `<article class="rcard${prefs[r.id] === -1 ? " disliked" : ""}" data-open="${r.id}" data-serv="1" tabindex="0">
     <div class="emoji">${r.emoji}</div><div class="mbody"><small class="tag">${r.cuisine === "arabic" ? "Arabic · " : ""}${r.meal}${r.diet !== "any" ? " · " + (r.diet === "veg" ? "vegetarian" : "vegan") : ""}</small>
-    <h3>${r.name}</h3><p class="mac"><b>${round(n.kcal)}</b> kcal · C ${round(n.c)}g · P ${round(n.p)}g · F ${round(n.f)}g</p>${extra}</div></article>`;
+    <h3>${r.name}</h3><p class="mac"><b>${round(n.kcal)}</b> kcal · C ${round(n.c)}g · P ${round(n.p)}g · F ${round(n.f)}g</p>${extra}${prefBtns(r.id)}</div></article>`;
 }
 function renderAll() {
   const q = $("q").value.trim().toLowerCase(), m = $("fmeal").value, d = $("fdiet").value, cu = $("fcuisine").value;
   const list = RECIPES.filter((r) => (!m || r.meal === m) && dietOK(r, d) && (!cu || r.cuisine === cu) &&
     (!q || r.name.toLowerCase().includes(q) || r.ing.some(([k]) => INGREDIENTS[k].n.includes(q))));
-  $("rlist").innerHTML = list.map((r) => card(r)).join("") || `<p class="muted">No recipes match.</p>`;
+  const fp = $("fpref").value;
+  const shown = list.filter((r) => fp === "liked" ? prefs[r.id] === 1 : fp === "hide" ? prefs[r.id] !== -1 : true).sort(sortByPref);
+  $("rlist").innerHTML = shown.map((r) => card(r)).join("") || `<p class="muted">No recipes match.</p>`;
 }
 function renderPantry() {
   $("pantrygroups").innerHTML = Object.entries(GROUPS).map(([g, keys]) =>
@@ -296,6 +316,8 @@ $("greset").addEventListener("click", () => {
 $("shuffle").addEventListener("click", () => { buildWeek(); renderPlan(); });
 $("days").addEventListener("click", (e) => { const b = e.target.closest("[data-day]"); if (b) { day = +b.dataset.day; renderPlan(); } });
 document.addEventListener("click", (e) => {
+  const pf = e.target.closest("[data-pref]");
+  if (pf) { e.stopPropagation(); setPref(pf.dataset.pref, +pf.dataset.v); return; }
   const sw = e.target.closest("[data-swap]");
   if (sw) {
     const i = +sw.dataset.swap, cur = week[day][i], used = {};
@@ -338,7 +360,7 @@ $("modal").addEventListener("click", (e) => { if (e.target === $("modal")) close
 $("clearpantry").addEventListener("click", () => { pantry.clear(); afterPantryChange(); });
 ["pmeal", "pdiet", "pall"].forEach((id) => $(id).addEventListener("change", renderPantry));
 $("usepantry").addEventListener("change", () => { if (week.length) { buildWeek(); renderPlan(); } });
-["q", "fmeal", "fdiet", "fcuisine"].forEach((id) => $(id).addEventListener("input", renderAll));
+["q", "fmeal", "fdiet", "fcuisine", "fpref"].forEach((id) => $(id).addEventListener("input", renderAll));
 
 // restore saved profile
 const saved = store.get("profile", null);

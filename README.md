@@ -7,6 +7,7 @@ A free, fully client-side diet helper — no backend, no sign-up. Open `index.ht
 - Builds a 7-day meal plan sized to your numbers, with swap and regenerate
 - 103 original recipes (27 Arabic) (vegetarian and vegan filters), each with scaled ingredients, method and macros
 - Adjust servings or any ingredient amount (grams) and see calories and macros update live
+- Like or dislike any recipe: liked meals show up more often, disliked ones are never suggested
 - Tick the ingredients you have at home to get recipes ranked by what you can already make
 
 Estimates only — not medical advice.

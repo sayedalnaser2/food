@@ -91,3 +91,10 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:20px 16px 4
 .secondary:hover{background:var(--chip)}
 
 .ghost.edit{border-color:var(--brand);color:var(--brand)}
+
+.prefs{display:inline-flex;gap:4px;margin-top:6px}
+.acts .prefs{margin:0;justify-content:center}
+.pref{border:1px solid var(--line);background:transparent;border-radius:8px;padding:3px 8px;font-size:1rem;filter:grayscale(1);opacity:.7}
+.pref:hover{opacity:1;filter:none}
+.pref.on{filter:none;opacity:1}.pref.up.on{border-color:var(--brand);background:var(--chip)}.pref.down.on{border-color:var(--p)}
+.rcard.disliked{opacity:.5}
