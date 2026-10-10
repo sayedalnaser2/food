@@ -120,6 +120,10 @@ function nutFromAmounts(r, amt) {
   }
   return t;
 }
+function entryWeight(e) {
+  const r = recipeById(e.id);
+  return e.custom ? r.ing.reduce((a, [k]) => a + (e.custom[k] || 0), 0) : r.ing.reduce((a, [, g]) => a + g * e.servings, 0);
+}
 function entryNutrition(e) {
   if (e.custom) return nutFromAmounts(recipeById(e.id), e.custom);
   const n = perServing(recipeById(e.id));
@@ -140,7 +144,7 @@ function renderPlan() {
       <div class="mbody">
         <small class="tag">${e.meal}</small>
         <h3><a href="#" data-open="${r.id}" data-ref="${i}">${r.name}</a></h3>
-        <p class="muted"><span class="step"><button type="button" data-serv-dn="${i}" aria-label="Less">−</button><b>${e.custom ? "custom" : e.servings}</b><button type="button" data-serv-up="${i}" aria-label="More">+</button></span> ${e.custom ? "amounts" : "serving" + (e.servings === 1 ? "" : "s")} · ${r.time} min${pm ? ` · you have ${pm.have}/${pm.total} ingredients` : ""}</p>
+        <p class="muted"><span class="step"><button type="button" data-serv-dn="${i}" aria-label="Less">−</button><b>${e.custom ? "custom" : e.servings}</b><button type="button" data-serv-up="${i}" aria-label="More">+</button></span> ${e.custom ? "amounts" : "serving" + (e.servings === 1 ? "" : "s")} · ${r.time} min · ${round(entryWeight(e))} g${pm ? ` · you have ${pm.have}/${pm.total} ingredients` : ""}</p>
         <p class="mac"><b>${round(n.kcal)}</b> kcal · C ${round(n.c)}g · P ${round(n.p)}g · F ${round(n.f)}g</p>
       </div>
       <div class="acts"><button class="ghost" data-open="${r.id}" data-ref="${i}">Recipe &amp; amounts</button>
@@ -165,6 +169,8 @@ function openRecipe(id, servings = 1, ref = null) {
     <div class="mmac"><div><b id="mk"></b>kcal</div><div><b id="mc"></b>carbs</div><div><b id="mp"></b>protein</div><div><b id="mf"></b>fat</div></div>
     <div class="servrow"><label>Servings
       <span class="step big"><button type="button" id="sdn" aria-label="Fewer servings">−</button><input id="sinp" type="number" min="0.25" max="10" step="0.25"><button type="button" id="sup" aria-label="More servings">+</button></span></label>
+      <label>Total weight (g)
+      <span class="step big"><input id="wtot" type="number" min="10" step="10"></span></label>
       <button type="button" class="ghost" id="sreset">Reset amounts</button></div>
     <h3>Ingredients <span class="muted">(edit any amount)</span></h3>
     <ul class="ings edit">${r.ing.map(([k]) => { const ing = INGREDIENTS[k];
@@ -187,6 +193,7 @@ function refreshModal(skip) {
   const n = nutFromAmounts(M.r, M.amt);
   $("mk").textContent = round(n.kcal); $("mc").textContent = `${round(n.c)} g`; $("mp").textContent = `${round(n.p)} g`; $("mf").textContent = `${round(n.f)} g`;
   if (skip !== "sinp") $("sinp").value = Math.round(totalFactor() * 100) / 100;
+  if (skip !== "wtot") $("wtot").value = Math.round(M.r.ing.reduce((a, [k]) => a + (M.amt[k] || 0), 0));
   M.r.ing.forEach(([k]) => {
     const inp = document.querySelector(`[data-amt="${k}"]`), ing = INGREDIENTS[k], g = M.amt[k] || 0;
     if (skip !== k) inp.value = Math.round(g * 10) / 10;
@@ -279,6 +286,8 @@ document.addEventListener("click", (e) => {
 document.addEventListener("input", (e) => {
   if (!M) return;
   if (e.target.id === "sinp") { const f = parseFloat(e.target.value); if (f > 0) { M.r.ing.forEach(([k, g]) => (M.amt[k] = Math.round(g * Math.min(10, f) * 10) / 10)); refreshModal("sinp"); } }
+  if (e.target.id === "wtot") { const w = parseFloat(e.target.value), base = M.r.ing.reduce((a, [, g]) => a + g, 0);
+    if (w > 0) { const f = Math.min(10, w / base); M.r.ing.forEach(([k, g]) => (M.amt[k] = Math.round(g * f * 10) / 10)); refreshModal("wtot"); } }
   const k = e.target.dataset?.amt;
   if (k) { M.amt[k] = Math.max(0, parseFloat(e.target.value) || 0); refreshModal(k); }
 });
