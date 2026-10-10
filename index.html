@@ -46,6 +46,8 @@
         </select></label>
       <label>Diet type
         <select id="diet"><option value="any">Everything</option><option value="veg">Vegetarian</option><option value="vegan">Vegan</option></select></label>
+      <label>Cuisine
+        <select id="cuisine"><option value="any">All cuisines</option><option value="arabic">Arabic only</option></select></label>
       <label>Snacks per day
         <select id="snacks"><option value="0">None</option><option value="1" selected>1</option><option value="2">2</option></select></label>
     </div>
@@ -101,6 +103,7 @@
   <div class="filters">
     <input id="q" type="search" placeholder="Search recipes…">
     <select id="fmeal"><option value="">All meals</option><option>breakfast</option><option>lunch</option><option>dinner</option><option>snack</option></select>
+    <select id="fcuisine"><option value="">All cuisines</option><option value="arabic">Arabic</option></select>
     <select id="fdiet"><option value="any">Any diet</option><option value="veg">Vegetarian</option><option value="vegan">Vegan</option></select>
   </div>
   <div id="rlist" class="rlist"></div>
@@ -118,6 +121,7 @@
 
 <script src="data.js"></script>
 <script src="data2.js"></script>
+<script src="data3.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

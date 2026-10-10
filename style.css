@@ -69,3 +69,14 @@ label.check{flex-direction:row;align-items:center;gap:8px;color:var(--ink)}label
 .ings li.have::marker{content:"✓ ";color:var(--brand)}.ings li.miss{color:var(--p)}.ings li.miss::marker{content:"✗ "}
 footer{text-align:center;color:var(--muted);font-size:.82rem;padding:20px 16px 40px}
 @media(max-width:520px){.meal{flex-wrap:wrap}.acts{flex-direction:row;width:100%}.targets{justify-content:center}}
+
+.step{display:inline-flex;align-items:center;gap:4px}
+.step button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:1.1rem;line-height:1;padding:0}
+.step button:hover{border-color:var(--brand);color:var(--brand)}
+.step b{min-width:2.4em;text-align:center;color:var(--ink)}
+.step input{width:70px;text-align:center;padding:5px 4px}
+.step.big input{width:80px}.step.big button{width:34px;height:34px}
+.servrow{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:14px 0 4px}
+.ings.edit{list-style:none;padding:0}.ings.edit li{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}
+.ings.edit .unit{color:var(--muted);width:1.6em}.ings.edit .iname{flex:1;min-width:140px}.ings.edit em{color:var(--muted);font-style:normal;font-size:.85em}
+.ings.edit li.miss .iname{color:var(--p)}.ings.edit li.have .iname::before{content:"✓ ";color:var(--brand)}

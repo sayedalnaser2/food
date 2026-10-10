@@ -2,13 +2,13 @@ const $ = (id) => document.getElementById(id);
 const MEALS = ["breakfast", "lunch", "dinner", "snack"];
 const STAPLES = new Set(["oil", "lemon", "soy"]); // assumed to be in every kitchen
 const GROUPS = {
-  "Meat & fish": ["chicken", "beef", "turkey", "pork", "deli", "salmon", "cod", "tilapia", "tuna", "sardines", "shrimp"],
-  "Eggs, dairy & plant protein": ["egg", "milk", "yogurt", "cottage", "ricotta", "feta", "mozzarella", "parmesan", "soymilk", "tofu", "tempeh", "edamame", "whey"],
-  "Grains, bread & pasta": ["oats", "rice", "quinoa", "bulgur", "couscous", "pasta", "soba", "ricenoodles", "bread", "pita", "tortilla"],
-  "Beans & legumes": ["lentils", "chickpeas", "blackbeans", "kidney", "whitebeans", "hummus"],
-  "Vegetables": ["broccoli", "spinach", "kale", "tomato", "cucumber", "zucchini", "pepper", "onion", "carrot", "mushrooms", "cauliflower", "cabbage", "asparagus", "greenbeans", "eggplant", "peas", "corn", "potato", "sweetpotato", "squash", "greens", "avocado"],
+  "Meat & fish": ["lamb", "chicken", "beef", "turkey", "pork", "deli", "salmon", "cod", "tilapia", "tuna", "sardines", "shrimp"],
+  "Eggs, dairy & plant protein": ["egg", "labneh", "milk", "yogurt", "cottage", "ricotta", "feta", "mozzarella", "parmesan", "soymilk", "tofu", "tempeh", "edamame", "whey"],
+  "Grains, bread & pasta": ["oats", "rice", "quinoa", "bulgur", "freekeh", "couscous", "pasta", "soba", "ricenoodles", "bread", "pita", "tortilla"],
+  "Beans & legumes": ["lentils", "chickpeas", "blackbeans", "kidney", "whitebeans", "ful", "hummus"],
+  "Vegetables": ["parsley", "okra", "molokhia", "grapeleaves", "broccoli", "spinach", "kale", "tomato", "cucumber", "zucchini", "pepper", "onion", "carrot", "mushrooms", "cauliflower", "cabbage", "asparagus", "greenbeans", "eggplant", "peas", "corn", "potato", "sweetpotato", "squash", "greens", "avocado"],
   "Fruit": ["banana", "apple", "orange", "blueberries", "strawberries", "raspberries", "mango", "pineapple", "dates"],
-  "Nuts, seeds & pantry": ["almonds", "walnuts", "cashews", "pb", "tahini", "chia", "flax", "pumpkinseeds", "cocoa", "coconut", "honey", "maple"],
+  "Nuts, seeds & pantry": ["zaatar", "almonds", "walnuts", "cashews", "pb", "tahini", "chia", "flax", "pumpkinseeds", "cocoa", "coconut", "honey", "maple"],
 };
 const store = {
   get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
@@ -64,7 +64,7 @@ function readForm() {
   const imp = $("units").value === "imperial";
   const w = parseFloat($("weight").value), h = parseFloat($("height").value);
   return { sex: $("sex").value, age: +$("age").value, kg: imp ? w * 0.45359237 : w, cm: imp ? h * 2.54 : h,
-           act: +$("activity").value, goal: $("goal").value, diet: $("diet").value, snacks: +$("snacks").value,
+           act: +$("activity").value, goal: $("goal").value, diet: $("diet").value, cuisine: $("cuisine").value, snacks: +$("snacks").value,
            units: $("units").value, rawW: w, rawH: h };
 }
 function showTargets() {
@@ -91,7 +91,7 @@ function slots(snacks) {
 function pickRecipe(meal, kcalTarget, used, exclude = []) {
   const share = { p: targets.p * 4 / targets.kcal, c: targets.c * 4 / targets.kcal, f: targets.f * 9 / targets.kcal };
   const bias = $("usepantry").checked && pantry.size > 0;
-  const pool = RECIPES.filter((r) => r.meal === meal && dietOK(r, profile.diet) && !exclude.includes(r.id));
+  const pool = RECIPES.filter((r) => r.meal === meal && dietOK(r, profile.diet) && !exclude.includes(r.id) && (profile.cuisine !== "arabic" || r.cuisine === "arabic"));
   const scored = pool.map((r) => {
     const n = perServing(r), f = Math.min(2, Math.max(.5, kcalTarget / n.kcal));
     const s = { p: n.p * 4 / n.kcal, c: n.c * 4 / n.kcal, f: n.f * 9 / n.kcal };
@@ -112,7 +112,16 @@ function buildWeek() {
   day = 0;
 }
 const recipeById = (id) => RECIPES.find((r) => r.id === id);
+function nutFromAmounts(r, amt) {
+  const t = { kcal: 0, p: 0, c: 0, f: 0 };
+  for (const [k] of r.ing) {
+    const v = INGREDIENTS[k].v, g = amt[k] || 0;
+    t.kcal += v[0] * g / 100; t.p += v[1] * g / 100; t.c += v[2] * g / 100; t.f += v[3] * g / 100;
+  }
+  return t;
+}
 function entryNutrition(e) {
+  if (e.custom) return nutFromAmounts(recipeById(e.id), e.custom);
   const n = perServing(recipeById(e.id));
   return { kcal: n.kcal * e.servings, p: n.p * e.servings, c: n.c * e.servings, f: n.f * e.servings };
 }
@@ -130,42 +139,79 @@ function renderPlan() {
       <div class="emoji">${r.emoji}</div>
       <div class="mbody">
         <small class="tag">${e.meal}</small>
-        <h3><a href="#" data-open="${r.id}" data-serv="${e.servings}">${r.name}</a></h3>
-        <p class="muted">${e.servings} serving${e.servings === 1 ? "" : "s"} · ${r.time} min${pm ? ` · you have ${pm.have}/${pm.total} ingredients` : ""}</p>
+        <h3><a href="#" data-open="${r.id}" data-ref="${i}">${r.name}</a></h3>
+        <p class="muted"><span class="step"><button type="button" data-serv-dn="${i}" aria-label="Less">−</button><b>${e.custom ? "custom" : e.servings}</b><button type="button" data-serv-up="${i}" aria-label="More">+</button></span> ${e.custom ? "amounts" : "serving" + (e.servings === 1 ? "" : "s")} · ${r.time} min${pm ? ` · you have ${pm.have}/${pm.total} ingredients` : ""}</p>
         <p class="mac"><b>${round(n.kcal)}</b> kcal · C ${round(n.c)}g · P ${round(n.p)}g · F ${round(n.f)}g</p>
       </div>
-      <div class="acts"><button class="ghost" data-open="${r.id}" data-serv="${e.servings}">Recipe</button>
+      <div class="acts"><button class="ghost" data-open="${r.id}" data-ref="${i}">Recipe &amp; amounts</button>
       <button class="ghost" data-swap="${i}">Swap</button></div></article>`;
   }).join("");
 }
 
 // ---------- recipe modal ----------
-function openRecipe(id, servings = 1) {
-  const r = recipeById(id), n = perServing(r);
+let M = null; // open modal state: { r, amt, ref }
+const step = (g, ing) => (ing.piece ? ing.piece / 2 : g < 30 ? 1 : 5);
+function openRecipe(id, servings = 1, ref = null) {
+  const r = recipeById(id);
+  let amt;
+  const entry = ref !== null ? week[day][ref] : null;
+  if (entry && entry.custom) amt = { ...entry.custom };
+  else { amt = {}; const f = entry ? entry.servings : servings; r.ing.forEach(([k, g]) => (amt[k] = g * f)); }
+  M = { r, amt, entry };
   const pm = pantry.size ? pantryMatch(r) : null;
   $("mbody").innerHTML = `
-    <div class="mhead"><span class="big">${r.emoji}</span><div><small class="tag">${r.meal} · ${r.diet === "vegan" ? "vegan" : r.diet === "veg" ? "vegetarian" : "contains meat/fish"}</small>
-    <h2 id="mtitle">${r.name}</h2><p class="muted">${r.time} min · ${servings} serving${servings === 1 ? "" : "s"}</p></div></div>
-    <div class="mmac"><div><b>${round(n.kcal * servings)}</b>kcal</div><div><b>${round(n.c * servings)} g</b>carbs</div><div><b>${round(n.p * servings)} g</b>protein</div><div><b>${round(n.f * servings)} g</b>fat</div></div>
-    <h3>Ingredients</h3>
-    <ul class="ings">${r.ing.map(([k, g]) => `<li class="${pm ? (pantry.has(k) || STAPLES.has(k) ? "have" : "miss") : ""}">${fmtIng(k, g * servings)}</li>`).join("")}</ul>
+    <div class="mhead"><span class="big">${r.emoji}</span><div><small class="tag">${r.cuisine === "arabic" ? "Arabic · " : ""}${r.meal} · ${r.diet === "vegan" ? "vegan" : r.diet === "veg" ? "vegetarian" : "contains meat/fish"}</small>
+    <h2 id="mtitle">${r.name}</h2><p class="muted">${r.time} min</p></div></div>
+    <div class="mmac"><div><b id="mk"></b>kcal</div><div><b id="mc"></b>carbs</div><div><b id="mp"></b>protein</div><div><b id="mf"></b>fat</div></div>
+    <div class="servrow"><label>Servings
+      <span class="step big"><button type="button" id="sdn" aria-label="Fewer servings">−</button><input id="sinp" type="number" min="0.25" max="10" step="0.25"><button type="button" id="sup" aria-label="More servings">+</button></span></label>
+      <button type="button" class="ghost" id="sreset">Reset amounts</button></div>
+    <h3>Ingredients <span class="muted">(edit any amount)</span></h3>
+    <ul class="ings edit">${r.ing.map(([k]) => { const ing = INGREDIENTS[k];
+      return `<li class="${pm ? (pantry.has(k) || STAPLES.has(k) ? "have" : "miss") : ""}">
+        <span class="step"><button type="button" data-adj="${k}" data-dir="-1" aria-label="Less ${ing.n}">−</button>
+        <input type="number" min="0" step="1" data-amt="${k}" aria-label="${ing.n} amount">
+        <button type="button" data-adj="${k}" data-dir="1" aria-label="More ${ing.n}">+</button></span>
+        <span class="unit">${ing.ml ? "ml" : "g"}</span><span class="iname">${ing.n}<em data-pc="${k}"></em></span></li>`; }).join("")}</ul>
     ${pm ? `<p class="muted">Green = you have it · red = you need to buy it.</p>` : ""}
-    <h3>Method</h3><ol class="steps">${r.steps.map((s) => `<li>${s}</li>`).join("")}</ol>
-    <p class="note">Amounts are for ${servings} serving${servings === 1 ? "" : "s"}; quantities of cooked foods (rice, quinoa, pasta, beans) are cooked weights.</p>`;
+    <h3>Method</h3><ol class="steps">${r.steps.map((x) => `<li>${x}</li>`).join("")}</ol>
+    <p class="note">Quantities of cooked foods (rice, quinoa, pasta, beans) are cooked weights. Changes here ${entry ? "update your meal plan" : "are for this view only"}.</p>`;
+  refreshModal();
   $("modal").hidden = false; document.body.classList.add("noscroll");
 }
-const closeModal = () => { $("modal").hidden = true; document.body.classList.remove("noscroll"); };
+function totalFactor() {
+  const r = M.r, base = r.ing.reduce((a, [k, g]) => a + g, 0);
+  return r.ing.reduce((a, [k]) => a + (M.amt[k] || 0), 0) / base;
+}
+function refreshModal(skip) {
+  const n = nutFromAmounts(M.r, M.amt);
+  $("mk").textContent = round(n.kcal); $("mc").textContent = `${round(n.c)} g`; $("mp").textContent = `${round(n.p)} g`; $("mf").textContent = `${round(n.f)} g`;
+  if (skip !== "sinp") $("sinp").value = Math.round(totalFactor() * 100) / 100;
+  M.r.ing.forEach(([k]) => {
+    const inp = document.querySelector(`[data-amt="${k}"]`), ing = INGREDIENTS[k], g = M.amt[k] || 0;
+    if (skip !== k) inp.value = Math.round(g * 10) / 10;
+    document.querySelector(`[data-pc="${k}"]`).textContent = ing.piece ? ` (≈ ${Math.round(g / ing.piece * 10) / 10} ${ing.pn})` : "";
+  });
+  if (M.entry) { M.entry.custom = { ...M.amt }; M.entry.servings = Math.round(totalFactor() * 4) / 4 || 0.25; }
+}
+function setServings(f) {
+  f = Math.min(10, Math.max(0.25, f));
+  M.r.ing.forEach(([k, g]) => (M.amt[k] = Math.round(g * f * 10) / 10));
+  if (M.entry) delete M.entry.custom;
+  refreshModal(); if (M.entry) M.entry.custom = { ...M.amt };
+}
+const closeModal = () => { if ($("modal").hidden) return; $("modal").hidden = true; document.body.classList.remove("noscroll"); M = null; if (week.length) renderPlan(); };
 
 // ---------- recipe lists ----------
 function card(r, extra = "") {
   const n = perServing(r);
   return `<article class="rcard" data-open="${r.id}" data-serv="1" tabindex="0">
-    <div class="emoji">${r.emoji}</div><div class="mbody"><small class="tag">${r.meal}${r.diet !== "any" ? " · " + (r.diet === "veg" ? "vegetarian" : "vegan") : ""}</small>
+    <div class="emoji">${r.emoji}</div><div class="mbody"><small class="tag">${r.cuisine === "arabic" ? "Arabic · " : ""}${r.meal}${r.diet !== "any" ? " · " + (r.diet === "veg" ? "vegetarian" : "vegan") : ""}</small>
     <h3>${r.name}</h3><p class="mac"><b>${round(n.kcal)}</b> kcal · C ${round(n.c)}g · P ${round(n.p)}g · F ${round(n.f)}g</p>${extra}</div></article>`;
 }
 function renderAll() {
-  const q = $("q").value.trim().toLowerCase(), m = $("fmeal").value, d = $("fdiet").value;
-  const list = RECIPES.filter((r) => (!m || r.meal === m) && dietOK(r, d) &&
+  const q = $("q").value.trim().toLowerCase(), m = $("fmeal").value, d = $("fdiet").value, cu = $("fcuisine").value;
+  const list = RECIPES.filter((r) => (!m || r.meal === m) && dietOK(r, d) && (!cu || r.cuisine === cu) &&
     (!q || r.name.toLowerCase().includes(q) || r.ing.some(([k]) => INGREDIENTS[k].n.includes(q))));
   $("rlist").innerHTML = list.map((r) => card(r)).join("") || `<p class="muted">No recipes match.</p>`;
 }
@@ -212,10 +258,29 @@ document.addEventListener("click", (e) => {
     const i = +sw.dataset.swap, cur = week[day][i], used = {};
     week[day][i] = pickRecipe(cur.meal, cur.target, used, [cur.id]); renderPlan(); return;
   }
+  const dn = e.target.closest("[data-serv-dn]"), up = e.target.closest("[data-serv-up]");
+  if (dn || up) {
+    const en = week[day][+(dn || up).dataset[dn ? "servDn" : "servUp"]], cur = en.custom ? Math.round(entryNutrition(en).kcal / perServing(recipeById(en.id)).kcal * 4) / 4 : en.servings;
+    delete en.custom; en.servings = Math.min(10, Math.max(0.25, cur + (up ? 0.25 : -0.25))); renderPlan(); return;
+  }
+  if (M) {
+    if (e.target.id === "sdn") return setServings(totalFactor() - 0.25);
+    if (e.target.id === "sup") return setServings(totalFactor() + 0.25);
+    if (e.target.id === "sreset") return setServings(1);
+    const adj = e.target.closest("[data-adj]");
+    if (adj) { const k = adj.dataset.adj, ing = INGREDIENTS[k];
+      M.amt[k] = Math.max(0, Math.round(((M.amt[k] || 0) + step(M.amt[k] || 0, ing) * +adj.dataset.dir) * 10) / 10); refreshModal(); return; }
+  }
   const o = e.target.closest("[data-open]");
-  if (o) { e.preventDefault(); openRecipe(o.dataset.open, +o.dataset.serv || 1); return; }
+  if (o) { e.preventDefault(); openRecipe(o.dataset.open, +o.dataset.serv || 1, o.dataset.ref !== undefined ? +o.dataset.ref : null); return; }
   const c = e.target.closest("[data-ing]");
   if (c) { const k = c.dataset.ing; pantry.has(k) ? pantry.delete(k) : pantry.add(k); afterPantryChange(); }
+});
+document.addEventListener("input", (e) => {
+  if (!M) return;
+  if (e.target.id === "sinp") { const f = parseFloat(e.target.value); if (f > 0) { M.r.ing.forEach(([k, g]) => (M.amt[k] = Math.round(g * Math.min(10, f) * 10) / 10)); refreshModal("sinp"); } }
+  const k = e.target.dataset?.amt;
+  if (k) { M.amt[k] = Math.max(0, parseFloat(e.target.value) || 0); refreshModal(k); }
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeModal();
@@ -226,14 +291,14 @@ $("modal").addEventListener("click", (e) => { if (e.target === $("modal")) close
 $("clearpantry").addEventListener("click", () => { pantry.clear(); afterPantryChange(); });
 ["pmeal", "pdiet", "pall"].forEach((id) => $(id).addEventListener("change", renderPantry));
 $("usepantry").addEventListener("change", () => { if (week.length) { buildWeek(); renderPlan(); } });
-["q", "fmeal", "fdiet"].forEach((id) => $(id).addEventListener("input", renderAll));
+["q", "fmeal", "fdiet", "fcuisine"].forEach((id) => $(id).addEventListener("input", renderAll));
 
 // restore saved profile
 const saved = store.get("profile", null);
 if (saved) {
   $("units").value = saved.units; $("sex").value = saved.sex; $("age").value = saved.age;
   $("height").value = saved.rawH; $("weight").value = saved.rawW; $("activity").value = String(saved.act);
-  $("goal").value = saved.goal; $("diet").value = saved.diet; $("snacks").value = String(saved.snacks);
+  $("goal").value = saved.goal; $("diet").value = saved.diet; $("cuisine").value = saved.cuisine || "any"; $("snacks").value = String(saved.snacks);
   const imp = saved.units === "imperial";
   $("wlabel").textContent = imp ? "Weight (lb)" : "Weight (kg)"; $("hlabel").textContent = imp ? "Height (in)" : "Height (cm)";
 }
