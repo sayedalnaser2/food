@@ -51,8 +51,8 @@ function perServing(r) {
   if (r._n) return r._n;
   const t = { kcal: 0, p: 0, c: 0, f: 0 };
   for (const [k, g] of r.ing) {
-    const v = INGREDIENTS[k].v;
-    t.kcal += v[0] * g / 100; t.p += v[1] * g / 100; t.c += v[2] * g / 100; t.f += v[3] * g / 100;
+    const v = INGREDIENTS[k].v, w = g * (INGREDIENTS[k].d || 1); // ml -> grams
+    t.kcal += v[0] * w / 100; t.p += v[1] * w / 100; t.c += v[2] * w / 100; t.f += v[3] * w / 100;
   }
   return (r._n = t);
 }
@@ -73,8 +73,10 @@ function calcTargets(p) {
   const floor = p.sex === "m" ? 1500 : 1200;
   const floored = kcal < floor;
   kcal = Math.max(kcal, floor);
-  const prot = p.kg * (p.goal === "lose" ? 2.0 : p.goal === "gain" ? 1.8 : 1.6);
-  const fat = Math.max(kcal * 0.25 / 9, p.kg * 0.6);
+  // protein per kg of body weight, but never more than 35% of calories (matters for heavier people)
+  const prot = Math.min(p.kg * (p.goal === "lose" ? 2.0 : p.goal === "gain" ? 1.8 : 1.6), kcal * 0.35 / 4);
+  // fat ~25% of calories, at least 0.6 g/kg and never above 35% of calories
+  const fat = Math.min(Math.max(kcal * 0.25 / 9, p.kg * 0.6), kcal * 0.35 / 9);
   const carb = Math.max(0, (kcal - prot * 4 - fat * 9) / 4);
   return { bmr, tdee, kcal, p: prot, f: fat, c: carb, floored,
            bmi: p.kg / Math.pow(p.cm / 100, 2), fiber: kcal / 1000 * 14, water: p.kg * 0.035 };
@@ -116,7 +118,7 @@ function pickRecipe(meal, kcalTarget, used, exclude = []) {
   const allowed = pool.filter((r) => prefs[r.id] !== -1);
   if (allowed.length) pool.splice(0, pool.length, ...allowed);
   const scored = pool.map((r) => {
-    const n = perServing(r), f = Math.min(2, Math.max(.5, kcalTarget / n.kcal));
+    const n = perServing(r), f = Math.min(3, Math.max(.5, kcalTarget / n.kcal));
     const s = { p: n.p * 4 / n.kcal, c: n.c * 4 / n.kcal, f: n.f * 9 / n.kcal };
     let score = Math.abs(s.p - share.p) + Math.abs(s.c - share.c) + Math.abs(s.f - share.f)
       + (used[r.id] || 0) * .2 + Math.abs(Math.log(f)) * .15;
@@ -129,17 +131,38 @@ function pickRecipe(meal, kcalTarget, used, exclude = []) {
   used[c.r.id] = (used[c.r.id] || 0) + 1;
   return { id: c.r.id, meal, servings: c.f, target: kcalTarget };
 }
+// Rescale one day's servings so its calories hit the target (servings stay in 0.25 steps).
+function calibrateDay(d) {
+  const kcal = d.reduce((a, e) => a + perServing(recipeById(e.id)).kcal * e.servings, 0);
+  const f = targets.kcal / kcal;
+  d.forEach((e) => { e.servings = Math.min(4, Math.max(0.25, Math.round(e.servings * f * 4) / 4)); });
+}
+function dayError(d) {
+  const tot = d.reduce((a, e) => { const n = entryNutrition(e); for (const k in n) a[k] = (a[k] || 0) + n[k]; return a; }, {});
+  return Math.abs(tot.kcal / targets.kcal - 1) * 2 + Math.abs(tot.p / targets.p - 1) + Math.abs(tot.c / targets.c - 1) + Math.abs(tot.f / targets.f - 1);
+}
 function buildWeek() {
   const used = {};
-  week = Array.from({ length: 7 }, () =>
-    slots(profile.snacks).map(([m, sh]) => pickRecipe(m, targets.kcal * sh, used)));
+  // for each day, try many random combinations and keep the one closest to the calorie and macro targets
+  week = Array.from({ length: 7 }, () => {
+    let best = null, bestErr = Infinity;
+    for (let i = 0; i < 40; i++) {
+      const u = { ...used };
+      const d = slots(profile.snacks).map(([m, sh]) => pickRecipe(m, targets.kcal * sh, u));
+      calibrateDay(d);
+      const err = dayError(d);
+      if (err < bestErr) { best = d; bestErr = err; }
+    }
+    best.forEach((e) => (used[e.id] = (used[e.id] || 0) + 1));
+    return best;
+  });
   day = 0;
 }
 const recipeById = (id) => RECIPES.find((r) => r.id === id);
 function nutFromAmounts(r, amt) {
   const t = { kcal: 0, p: 0, c: 0, f: 0 };
   for (const [k] of r.ing) {
-    const v = INGREDIENTS[k].v, g = amt[k] || 0;
+    const v = INGREDIENTS[k].v, g = (amt[k] || 0) * (INGREDIENTS[k].d || 1);
     t.kcal += v[0] * g / 100; t.p += v[1] * g / 100; t.c += v[2] * g / 100; t.f += v[3] * g / 100;
   }
   return t;

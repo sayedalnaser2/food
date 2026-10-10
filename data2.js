@@ -26,7 +26,7 @@ Object.assign(INGREDIENTS, {
   pineapple: { n: "pineapple", v: [50, 0.5, 13.1, 0.1] },
   raspberries: { n: "raspberries", v: [52, 1.2, 11.9, 0.7] },
   dates: { n: "pitted dates", v: [282, 2.5, 75, 0.4] },
-  coconut: { n: "light coconut milk", v: [80, 0.8, 2.5, 7], ml: true },
+  coconut: { n: "light coconut milk", v: [80, 0.8, 2.5, 7], ml: true, d: 0.97 },
   flax: { n: "ground flaxseed", v: [534, 18, 29, 42] },
   pumpkinseeds: { n: "pumpkin seeds", v: [559, 30, 11, 49] },
   tahini: { n: "tahini", v: [595, 17, 21, 54] },
@@ -38,7 +38,7 @@ Object.assign(INGREDIENTS, {
   soba: { n: "cooked soba noodles", v: [99, 5.1, 21.4, 0.1] },
   cocoa: { n: "unsweetened cocoa powder", v: [228, 19.6, 57.9, 13.7] },
   tempeh: { n: "tempeh", v: [192, 20, 7.6, 10.8] },
-  soy: { n: "soy sauce", v: [53, 8, 4.9, 0.6], ml: true },
+  soy: { n: "soy sauce", v: [53, 8, 4.9, 0.6], ml: true, d: 1.2 },
 });
 
 (function () {

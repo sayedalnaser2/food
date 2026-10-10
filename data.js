@@ -1,8 +1,8 @@
 // Nutrition per 100 g: [kcal, protein g, carbs g, fat g]. `piece` = grams per item (for display).
 const INGREDIENTS = {
   oats: { n: "rolled oats", v: [389, 16.9, 66.3, 6.9] },
-  milk: { n: "semi-skimmed milk", v: [46, 3.4, 4.8, 1.5], ml: true },
-  soymilk: { n: "unsweetened soy milk", v: [33, 2.9, 1.7, 1.6], ml: true },
+  milk: { n: "semi-skimmed milk", v: [46, 3.4, 4.8, 1.5], ml: true, d: 1.03 },
+  soymilk: { n: "unsweetened soy milk", v: [33, 2.9, 1.7, 1.6], ml: true, d: 1.03 },
   banana: { n: "banana", v: [89, 1.1, 22.8, 0.3], piece: 120, pn: "banana" },
   yogurt: { n: "plain 0% Greek yogurt", v: [59, 10, 3.6, 0.4] },
   blueberries: { n: "blueberries", v: [57, 0.7, 14.5, 0.3] },
@@ -19,7 +19,7 @@ const INGREDIENTS = {
   broccoli: { n: "broccoli florets", v: [34, 2.8, 6.6, 0.4] },
   salmon: { n: "salmon fillet (raw weight)", v: [208, 20.4, 0, 13.4] },
   sweetpotato: { n: "sweet potato", v: [86, 1.6, 20.1, 0.1] },
-  oil: { n: "olive oil", v: [884, 0, 0, 100], ml: true },
+  oil: { n: "olive oil", v: [884, 0, 0, 100], ml: true, d: 0.92 },
   lentils: { n: "cooked lentils", v: [116, 9, 20.1, 0.4] },
   chickpeas: { n: "cooked chickpeas", v: [164, 8.9, 27.4, 2.6] },
   tofu: { n: "firm tofu", v: [144, 17.3, 2.8, 8.7] },
@@ -37,7 +37,7 @@ const INGREDIENTS = {
   whey: { n: "whey protein powder", v: [400, 80, 8, 6] },
   apple: { n: "apple", v: [52, 0.3, 13.8, 0.2], piece: 180, pn: "medium apple" },
   greens: { n: "mixed salad greens", v: [17, 1.3, 3.3, 0.2] },
-  lemon: { n: "lemon juice", v: [22, 0.4, 6.9, 0.2], ml: true },
+  lemon: { n: "lemon juice", v: [22, 0.4, 6.9, 0.2], ml: true, d: 1.03 },
   cod: { n: "cod fillet (raw weight)", v: [82, 18, 0, 0.7] },
   shrimp: { n: "peeled shrimp (raw weight)", v: [85, 20, 0, 0.5] },
   hummus: { n: "hummus", v: [166, 7.9, 14.3, 9.6] },
@@ -47,7 +47,7 @@ const INGREDIENTS = {
   mushrooms: { n: "mushrooms", v: [22, 3.1, 3.3, 0.3] },
   beef: { n: "lean beef strips (raw weight)", v: [176, 20, 0, 10] },
   honey: { n: "honey", v: [304, 0.3, 82, 0] },
-  maple: { n: "maple syrup", v: [260, 0, 67, 0.1], ml: true },
+  maple: { n: "maple syrup", v: [260, 0, 67, 0.1], ml: true, d: 1.33 },
 };
 
 // diet: "vegan" | "veg" (vegetarian) | "any". Ingredient amounts are grams (ml for liquids) for ONE serving.
