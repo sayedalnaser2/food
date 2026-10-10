@@ -219,7 +219,7 @@ function renderPlan() {
   $("meals").innerHTML = d.map((e, i) => {
     const r = recipeById(e.id), n = entryNutrition(e), pm = pantry.size ? pantryMatch(r) : null;
     return `<article class="meal">
-      <div class="emoji">${r.emoji}</div>
+      <div class="thumb">${recipeArt(r)}</div>
       <div class="mbody">
         <small class="tag">${t(e.meal)}</small>
         <h3><a href="#" data-open="${r.id}" data-ref="${i}">${rname(r)}</a></h3>
@@ -245,7 +245,7 @@ function openRecipe(id, servings = 1, ref = null) {
   const pm = pantry.size ? pantryMatch(r) : null;
   const dietTag = r.diet === "vegan" ? t("t_vegan") : r.diet === "veg" ? t("t_veg") : t("t_meat");
   $("mbody").innerHTML = `
-    <div class="mhead"><span class="big">${r.emoji}</span><div><small class="tag">${cuName(r.cuisine)} · ${t(r.meal)} · ${dietTag}</small>
+    <div class="mhead"><span class="big">${recipeArt(r)}</span><div><small class="tag">${cuName(r.cuisine)} · ${t(r.meal)} · ${dietTag}</small>
     <h2 id="mtitle">${rname(r)}</h2><p class="muted">${r.time} ${t("min")}</p><span id="mprefs">${prefBtns(r.id)}</span></div></div>
     <div class="mmac"><div><b id="mk"></b>${t("kcal")}</div><div><b id="mc"></b>${t("carbs")}</div><div><b id="mp"></b>${t("protein")}</div><div><b id="mf"></b>${t("fat")}</div></div>
     <div class="servrow"><label>${t("m_servings")}
@@ -294,7 +294,7 @@ const closeModal = () => { if ($("modal").hidden) return; $("modal").hidden = tr
 function card(r, extra = "") {
   const n = perServing(r);
   return `<article class="rcard${prefs[r.id] === -1 ? " disliked" : ""}" data-open="${r.id}" data-serv="1" tabindex="0">
-    <div class="emoji">${r.emoji}</div><div class="mbody"><small class="tag">${cuName(r.cuisine)} · ${t(r.meal)}${r.diet !== "any" ? " · " + (r.diet === "veg" ? t("t_veg") : t("t_vegan")) : ""}</small>
+    <div class="thumb">${recipeArt(r)}</div><div class="mbody"><small class="tag">${cuName(r.cuisine)} · ${t(r.meal)}${r.diet !== "any" ? " · " + (r.diet === "veg" ? t("t_veg") : t("t_vegan")) : ""}</small>
     <h3>${rname(r)}</h3><p class="mac">${macLine(n)}</p>${extra}${prefBtns(r.id)}</div></article>`;
 }
 const PAGE = 48;
