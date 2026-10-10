@@ -89,3 +89,5 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:20px 16px 4
 .btns{display:flex;gap:10px;flex-wrap:wrap}
 .secondary{background:transparent;border:2px solid var(--brand);color:var(--brand);padding:10px 20px;border-radius:12px;font-weight:600}
 .secondary:hover{background:var(--chip)}
+
+.ghost.edit{border-color:var(--brand);color:var(--brand)}

@@ -151,7 +151,8 @@ function renderPlan() {
         <p class="muted"><span class="step"><button type="button" data-serv-dn="${i}" aria-label="Less">−</button><b>${e.custom ? "custom" : e.servings}</b><button type="button" data-serv-up="${i}" aria-label="More">+</button></span> ${e.custom ? "amounts" : "serving" + (e.servings === 1 ? "" : "s")} · ${r.time} min · ${round(entryWeight(e))} g${pm ? ` · you have ${pm.have}/${pm.total} ingredients` : ""}</p>
         <p class="mac"><b>${round(n.kcal)}</b> kcal · C ${round(n.c)}g · P ${round(n.p)}g · F ${round(n.f)}g</p>
       </div>
-      <div class="acts"><button class="ghost" data-open="${r.id}" data-ref="${i}">Recipe &amp; amounts</button>
+      <div class="acts"><button class="ghost" data-open="${r.id}" data-ref="${i}">Recipe</button>
+      <button class="ghost edit" data-open="${r.id}" data-ref="${i}" data-edit="1">✏️ Edit amounts</button>
       <button class="ghost" data-swap="${i}">Swap</button></div></article>`;
   }).join("");
 }
@@ -314,7 +315,9 @@ document.addEventListener("click", (e) => {
       M.amt[k] = Math.max(0, Math.round(((M.amt[k] || 0) + step(M.amt[k] || 0, ing) * +adj.dataset.dir) * 10) / 10); refreshModal(); return; }
   }
   const o = e.target.closest("[data-open]");
-  if (o) { e.preventDefault(); openRecipe(o.dataset.open, +o.dataset.serv || 1, o.dataset.ref !== undefined ? +o.dataset.ref : null); return; }
+  if (o) { e.preventDefault(); openRecipe(o.dataset.open, +o.dataset.serv || 1, o.dataset.ref !== undefined ? +o.dataset.ref : null);
+    if (o.dataset.edit) { const w = $("wtot"); w.scrollIntoView({ block: "center" }); w.focus(); w.select(); }
+    return; }
   const c = e.target.closest("[data-ing]");
   if (c) { const k = c.dataset.ing; pantry.has(k) ? pantry.delete(k) : pantry.add(k); afterPantryChange(); }
 });
