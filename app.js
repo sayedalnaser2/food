@@ -69,9 +69,12 @@ function readForm() {
 }
 function showTargets() {
   const t = targets;
+  if (!t.auto) t.auto = { kcal: t.kcal, c: t.c, p: t.p, f: t.f };
   $("tkcal").textContent = round(t.kcal);
-  $("tcarb").textContent = `${round(t.c)} g`; $("tprot").textContent = `${round(t.p)} g`; $("tfat").textContent = `${round(t.f)} g`;
+  $("tkcal").parentNode.querySelector("small").textContent = t.custom ? "kcal / day (your goal)" : "kcal / day";
+  [["gk", t.kcal], ["gc", t.c], ["gp", t.p], ["gf", t.f]].forEach(([id, v]) => { if (document.activeElement !== $(id)) $(id).value = round(v); });
   const cp = t.c * 4 / t.kcal * 100, pp = t.p * 4 / t.kcal * 100;
+  $("gsplit").textContent = `${round(cp)}% carbs · ${round(pp)}% protein · ${round(100 - cp - pp)}% fat`;
   $("donut").style.background = `conic-gradient(var(--c) 0 ${cp}%, var(--p) ${cp}% ${cp + pp}%, var(--f) ${cp + pp}% 100%)`;
   const bmiCat = t.bmi < 18.5 ? "underweight" : t.bmi < 25 ? "healthy range" : t.bmi < 30 ? "overweight range" : "obese range";
   $("facts").innerHTML = [
@@ -248,7 +251,7 @@ $("form").addEventListener("submit", (e) => {
     alert("Please enter realistic values (age 15+, valid height and weight)."); return;
   }
   store.set("profile", { ...profile });
-  targets = calcTargets(profile); showTargets(); buildWeek(); renderPlan();
+  targets = calcTargets(profile); store.set("goals", null); showTargets(); buildWeek(); renderPlan();
   $("results").hidden = false; $("results").scrollIntoView({ behavior: "smooth" });
 });
 $("units").addEventListener("change", () => {
@@ -256,6 +259,26 @@ $("units").addEventListener("change", () => {
   $("weight").value = (imp ? w / 0.45359237 : w * 0.45359237).toFixed(1);
   $("height").value = (imp ? h / 2.54 : h * 2.54).toFixed(1);
   $("wlabel").textContent = imp ? "Weight (lb)" : "Weight (kg)"; $("hlabel").textContent = imp ? "Height (in)" : "Height (cm)";
+});
+function onGoalInput(id) {
+  const v = parseFloat($(id).value);
+  if (!(v >= 0) || !targets) return;
+  const t = targets;
+  if (id === "gk") { if (v < 500) return; const r = v / t.kcal; t.c *= r; t.p *= r; t.f *= r; t.kcal = v; }
+  else { t[{ gc: "c", gp: "p", gf: "f" }[id]] = v; t.kcal = t.c * 4 + t.p * 4 + t.f * 9; }
+  if (t.kcal < 500) return;
+  t.custom = true; store.set("goals", { kcal: t.kcal, c: t.c, p: t.p, f: t.f });
+  showTargets(); // refreshes donut and the other fields, leaves the one being typed in
+  if (week.length) renderPlan();
+}
+["gk", "gc", "gp", "gf"].forEach((id) => {
+  $(id).addEventListener("input", () => onGoalInput(id));
+  $(id).addEventListener("change", () => { if (targets && week.length) { showTargets(); buildWeek(); renderPlan(); } });
+});
+$("greset").addEventListener("click", () => {
+  if (!targets) return;
+  Object.assign(targets, targets.auto, { custom: false }); store.set("goals", null);
+  showTargets(); buildWeek(); renderPlan();
 });
 $("shuffle").addEventListener("click", () => { buildWeek(); renderPlan(); });
 $("days").addEventListener("click", (e) => { const b = e.target.closest("[data-day]"); if (b) { day = +b.dataset.day; renderPlan(); } });

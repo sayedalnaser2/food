@@ -75,12 +75,15 @@
 <section id="results" hidden>
   <div class="card">
     <h2>Your daily targets</h2>
+    <p class="muted">These are calculated for you. Change any number to set your own goals; the plan rebuilds to match.</p>
     <div class="targets">
       <div class="donut" id="donut"><div><b id="tkcal"></b><small>kcal / day</small></div></div>
       <div class="macros">
-        <div class="macro"><i class="dot c"></i><span>Carbs</span><b id="tcarb"></b></div>
-        <div class="macro"><i class="dot p"></i><span>Protein</span><b id="tprot"></b></div>
-        <div class="macro"><i class="dot f"></i><span>Fat</span><b id="tfat"></b></div>
+        <label class="macro"><i class="dot k"></i><span>Calories</span><input id="gk" type="number" min="800" max="6000" step="10"><small>kcal</small></label>
+        <label class="macro"><i class="dot c"></i><span>Carbs</span><input id="gc" type="number" min="0" max="900" step="5"><small>g</small></label>
+        <label class="macro"><i class="dot p"></i><span>Protein</span><input id="gp" type="number" min="0" max="500" step="5"><small>g</small></label>
+        <label class="macro"><i class="dot f"></i><span>Fat</span><input id="gf" type="number" min="0" max="300" step="1"><small>g</small></label>
+        <div class="goalbar"><span id="gsplit" class="muted"></span><button type="button" class="ghost" id="greset">Reset to calculated</button></div>
       </div>
     </div>
     <ul class="facts" id="facts"></ul>

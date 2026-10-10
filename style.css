@@ -80,3 +80,8 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:20px 16px 4
 .ings.edit{list-style:none;padding:0}.ings.edit li{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}
 .ings.edit .unit{color:var(--muted);width:1.6em}.ings.edit .iname{flex:1;min-width:140px}.ings.edit em{color:var(--muted);font-style:normal;font-size:.85em}
 .ings.edit li.miss .iname{color:var(--p)}.ings.edit li.have .iname::before{content:"✓ ";color:var(--brand)}
+
+.macro input{width:84px;text-align:right;font-size:1.05rem;font-weight:600}
+.macro small{color:var(--muted);width:2.2em}
+.dot.k{background:var(--brand)}
+.goalbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
