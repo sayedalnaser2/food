@@ -76,6 +76,7 @@ function showTargets() {
   const cp = t.c * 4 / t.kcal * 100, pp = t.p * 4 / t.kcal * 100;
   $("gsplit").textContent = `${round(cp)}% carbs · ${round(pp)}% protein · ${round(100 - cp - pp)}% fat`;
   $("donut").style.background = `conic-gradient(var(--c) 0 ${cp}%, var(--p) ${cp}% ${cp + pp}%, var(--f) ${cp + pp}% 100%)`;
+  if (t.bmr === undefined) { $("facts").innerHTML = "<li>Custom goals: set your own calories and macros above.</li>"; return; }
   const bmiCat = t.bmi < 18.5 ? "underweight" : t.bmi < 25 ? "healthy range" : t.bmi < 30 ? "overweight range" : "obese range";
   $("facts").innerHTML = [
     `BMR (at rest): <b>${round(t.bmr)}</b> kcal`, `Maintenance (TDEE): <b>${round(t.tdee)}</b> kcal`,
@@ -253,6 +254,17 @@ $("form").addEventListener("submit", (e) => {
   store.set("profile", { ...profile });
   targets = calcTargets(profile); store.set("goals", null); showTargets(); buildWeek(); renderPlan();
   $("results").hidden = false; $("results").scrollIntoView({ behavior: "smooth" });
+});
+$("custom").addEventListener("click", () => {
+  profile = readForm();
+  const ok = profile.kg > 20 && profile.kg < 400 && profile.cm > 100 && profile.cm < 250 && profile.age >= 15;
+  if (ok) { targets = calcTargets(profile); }
+  else targets = { kcal: 2000, p: 125, f: 56, c: 249 }; // starting point when no body details are given
+  targets.auto = { kcal: targets.kcal, c: targets.c, p: targets.p, f: targets.f };
+  targets.custom = true;
+  showTargets(); buildWeek(); renderPlan();
+  $("results").hidden = false; $("results").scrollIntoView({ behavior: "smooth" });
+  setTimeout(() => $("gk").focus(), 400);
 });
 $("units").addEventListener("change", () => {
   const imp = $("units").value === "imperial", w = +$("weight").value, h = +$("height").value;
