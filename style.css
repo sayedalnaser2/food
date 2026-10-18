@@ -112,3 +112,5 @@ input[type=number]{direction:ltr}
 .meal .thumb{align-self:center}
 .thumb svg{display:block;width:100%;height:100%}
 @media(max-width:520px){.thumb{width:76px;height:76px}.mhead .big{width:92px;height:92px}}
+.meal,.rcard{min-width:0}.mbody{min-width:0;overflow-wrap:anywhere}
+@media(max-width:520px){.acts{flex-wrap:wrap}}
