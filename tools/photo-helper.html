@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NutriPlan photo helper</title>
+<style>
+:root{--bg:#f5f8f3;--card:#fff;--ink:#1d2a1f;--muted:#6a7a6d;--line:#e1e8de;--brand:#2f9e5b;--bad:#d9382c}
+@media(prefers-color-scheme:dark){:root{--bg:#121813;--card:#1b231c;--ink:#e8efe9;--muted:#98a89b;--line:#2a352c;--brand:#46c27a}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:16px}
+main{max-width:860px;margin:0 auto;display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+h1{margin:0 0 4px;font-size:1.4rem}h2{margin:0 0 10px;font-size:1.05rem}.muted{color:var(--muted);font-size:.9rem}
+label{display:flex;flex-direction:column;gap:3px;font-size:.85rem;color:var(--muted)}
+input,select,button,textarea{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink)}
+button{cursor:pointer}button.go{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.row>*{flex:1;min-width:140px}
+#log{max-height:260px;overflow:auto;font:12px/1.5 ui-monospace,monospace;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px;white-space:pre-wrap}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--brand);width:0}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}#grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px}
+.drop{border:2px dashed var(--line);border-radius:12px;padding:22px;text-align:center;color:var(--muted)}.drop.over{border-color:var(--brand)}
+.bad{color:var(--bad)}
+</style>
+</head>
+<body>
+<main>
+<div class="card">
+  <h1>NutriPlan photo helper</h1>
+  <p class="muted">Makes one photo per recipe and saves it as <code>photos/&lt;id&gt;.jpg</code>, then updates <code>photos/index.json</code>. Open this page from a local server in the food repo (<code>python3 -m http.server</code>, then <code>http://localhost:8000/tools/photo-helper.html</code>) in Chrome or Edge.</p>
+  <div class="row">
+    <label>Prompt list<select id="list"><option value="../photos/prompts.json">103 hand-written recipes</option><option value="../photos/prompts-all.json">All 5,103 recipes</option></select></label>
+    <label>From # <input id="from" type="number" min="1" value="1"></label>
+    <label>To # <input id="to" type="number" min="1" value="103"></label>
+    <button id="folder">1 · Choose the photos folder</button>
+  </div>
+  <p class="muted" id="folderMsg">No folder chosen: images will download one by one instead (browsers without folder access).</p>
+</div>
+
+<div class="card">
+  <h2>Automatic: Gemini API</h2>
+  <p class="muted">Uses an official Google AI Studio API key (not your Gemini web account). The key stays in this page and is sent only to Google. Image generation may be billed by Google; check your quota and set a spending limit first.</p>
+  <div class="row">
+    <label>API key <input id="key" type="password" placeholder="AIza…" autocomplete="off"></label>
+    <label>Model <input id="model" value="gemini-2.5-flash-image"></label>
+    <label>At once <select id="par"><option>1</option><option selected>2</option><option>4</option></select></label>
+  </div>
+  <div class="row" style="margin-top:10px"><button class="go" id="run">2 · Start</button><button id="stop">Stop</button></div>
+  <div class="bar" style="margin-top:10px"><i id="prog"></i></div><p class="muted" id="status">Idle.</p>
+  <div id="grid"></div>
+  <div id="log"></div>
+</div>
+
+<div class="card">
+  <h2>Manual: use the Gemini app yourself</h2>
+  <p class="muted">Copy the prompt, paste it in Gemini, then drop the image you download here. The page names it and saves it, then moves to the next recipe.</p>
+  <p><b id="mName">–</b> <span class="muted" id="mId"></span></p>
+  <textarea id="mPrompt" rows="4" style="width:100%" readonly></textarea>
+  <div class="row" style="margin:8px 0"><button id="mCopy">Copy prompt</button><button id="mPrev">◀ Previous</button><button id="mNext">Skip ▶</button></div>
+  <div class="drop" id="drop">Drop the downloaded image here</div>
+</div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+let prompts = [], dir = null, have = new Set(), stopFlag = false, mi = 0;
+const log = (m, bad) => { const d = document.createElement("div"); if (bad) d.className = "bad"; d.textContent = m; $("log").prepend(d); };
+
+async function load() {
+  const r = await fetch($("list").value); prompts = await r.json();
+  $("to").value = Math.min(+$("to").value || prompts.length, prompts.length); if ($("list").selectedIndex === 1) $("to").value = prompts.length;
+  mi = 0; showManual();
+}
+$("list").onchange = load;
+const range = () => prompts.slice(Math.max(0, +$("from").value - 1), +$("to").value);
+
+// ---- saving ----
+async function toJpeg(blob) { // resize to 640px square and re-encode to keep files small
+  const bmp = await createImageBitmap(blob), s = Math.min(bmp.width, bmp.height), c = document.createElement("canvas");
+  c.width = c.height = 640; c.getContext("2d").drawImage(bmp, (bmp.width - s) / 2, (bmp.height - s) / 2, s, s, 0, 0, 640, 640);
+  return new Promise((ok) => c.toBlob(ok, "image/jpeg", 0.82));
+}
+async function save(id, blob) {
+  const jpg = await toJpeg(blob);
+  if (dir) { const h = await dir.getFileHandle(id + ".jpg", { create: true }); const w = await h.createWritable(); await w.write(jpg); await w.close(); }
+  else { const a = document.createElement("a"); a.href = URL.createObjectURL(jpg); a.download = id + ".jpg"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 5000); }
+  have.add(id); await writeIndex();
+  const img = new Image(); img.src = URL.createObjectURL(jpg); img.title = id; $("grid").append(img);
+}
+async function writeIndex() {
+  if (!dir) return;
+  const h = await dir.getFileHandle("index.json", { create: true }), w = await h.createWritable();
+  await w.write(JSON.stringify([...have].sort())); await w.close();
+}
+$("folder").onclick = async () => {
+  if (!window.showDirectoryPicker) { alert("Folder access needs Chrome or Edge. Images will download instead."); return; }
+  dir = await showDirectoryPicker({ mode: "readwrite" });
+  have = new Set();
+  try { const f = await (await dir.getFileHandle("index.json")).getFile(); JSON.parse(await f.text()).forEach((x) => have.add(x)); } catch {}
+  for await (const [n] of dir.entries()) if (n.endsWith(".jpg")) have.add(n.slice(0, -4));
+  $("folderMsg").textContent = `Saving into "${dir.name}". ${have.size} photos already there will be skipped.`;
+};
+
+// ---- API mode ----
+async function gen(p) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent($("model").value.trim())}:generateContent`;
+  const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": $("key").value.trim() },
+    body: JSON.stringify({ contents: [{ parts: [{ text: p.prompt }] }], generationConfig: { responseModalities: ["IMAGE"] } }) });
+  if (r.status === 429 && (p.wait = (p.wait || 0) + 1) <= 3) { log(`Rate limit: waiting 20 s (${p.wait}/3)…`); await new Promise((x) => setTimeout(x, 20000)); return gen(p); }
+  if (r.status === 429 || r.status === 403 || r.status === 401) { const e = new Error("HTTP " + r.status + ": " + (await r.text()).slice(0, 200)); e.fatal = true; throw e; }
+  if (!r.ok) throw new Error("HTTP " + r.status + ": " + (await r.text()).slice(0, 160));
+  const j = await r.json();
+  const part = (j.candidates?.[0]?.content?.parts || []).find((x) => x.inlineData || x.inline_data);
+  if (!part) throw new Error("no image in the response (blocked or text only)");
+  const d = part.inlineData || part.inline_data, bin = atob(d.data), u = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+  return new Blob([u], { type: d.mimeType || d.mime_type || "image/png" });
+}
+$("run").onclick = async () => {
+  if (!$("key").value.trim()) { alert("Paste your API key first."); return; }
+  stopFlag = false; const todo = range().filter((p) => !have.has(p.id)), total = todo.length; let done = 0, failed = 0, q = 0;
+  log(`Starting: ${total} to do (${range().length - total} already have photos).`);
+  const worker = async () => {
+    while (!stopFlag && q < todo.length) {
+      const p = todo[q++];
+      for (let tries = 0; tries < 2 && !stopFlag; tries++) {
+        try { await save(p.id, await gen(p)); done++; break; }
+        catch (e) {
+          if (e.fatal) { stopFlag = true; log(`Stopped: ${e.message}. Likely the quota or billing limit; run again later.`, true); break; }
+          if (tries) { failed++; log(`${p.id} failed: ${e.message}`, true); } else await new Promise((r) => setTimeout(r, 2000));
+        }
+      }
+      $("prog").style.width = Math.round((done + failed) / total * 100) + "%";
+      $("status").textContent = `${done} done, ${failed} failed of ${total}.`;
+    }
+  };
+  await Promise.all(Array.from({ length: +$("par").value }, worker));
+  log(stopFlag ? "Stopped." : "Finished."); $("status").textContent += " Finished.";
+};
+$("stop").onclick = () => { stopFlag = true; };
+
+// ---- manual mode ----
+const cur = () => range()[mi];
+function showManual() { const p = cur(); if (!p) { $("mName").textContent = "All done"; $("mPrompt").value = ""; return; } $("mName").textContent = p.name; $("mId").textContent = `#${mi + 1} · ${p.id}` + (have.has(p.id) ? " (already has a photo)" : ""); $("mPrompt").value = p.prompt; }
+$("mCopy").onclick = async () => { try { await navigator.clipboard.writeText($("mPrompt").value); } catch { $("mPrompt").select(); } };
+$("mPrev").onclick = () => { mi = Math.max(0, mi - 1); showManual(); };
+$("mNext").onclick = () => { mi++; showManual(); };
+const drop = $("drop");
+["dragover", "dragenter"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach((ev) => drop.addEventListener(ev, () => drop.classList.remove("over")));
+drop.addEventListener("drop", async (e) => {
+  e.preventDefault();
+  for (const f of e.dataTransfer.files) { const p = cur(); if (!p || !f.type.startsWith("image/")) continue; await save(p.id, f); log(`Saved ${p.id}.jpg`); mi++; showManual(); await $("mCopy").onclick(); }
+});
+load().catch((e) => log("Could not load the prompt list: " + e.message + ". Serve this folder over http.", true));
+</script>
+</body>
+</html>

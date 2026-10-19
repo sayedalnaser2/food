@@ -13,3 +13,8 @@ A free, fully client-side diet helper — no backend, no sign-up. Open `index.ht
 - Tick the ingredients you have at home to get recipes ranked by what you can already make
 
 Estimates only — not medical advice.
+
+## Photo helper
+`tools/photo-helper.html` makes recipe photos with the Gemini API (your own API key; automatic) or with the Gemini app by drag-and-drop (manual).
+Serve the repo (`python3 -m http.server`), open `http://localhost:8000/tools/photo-helper.html` in Chrome or Edge, choose the `photos/` folder, and start.
+Prompt lists: `photos/prompts.json` (103 hand-written recipes) and `photos/prompts-all.json` (all 5,103).
