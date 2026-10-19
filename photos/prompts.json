@@ -1,0 +1,517 @@
+[
+ {
+  "id": "oat-bowl",
+  "name": "Banana Oat Protein Bowl",
+  "prompt": "Overhead top-down food photograph of \"Banana Oat Protein Bowl\", made with banana, Greek yogurt, rolled oats, almonds. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "egg-toast",
+  "name": "Veggie Scrambled Eggs on Toast",
+  "prompt": "Overhead top-down food photograph of \"Veggie Scrambled Eggs on Toast\", made with eggs, tomatoes, whole-wheat bread, fresh spinach. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "parfait",
+  "name": "Greek Yogurt Berry Parfait",
+  "prompt": "Overhead top-down food photograph of \"Greek Yogurt Berry Parfait\", made with Greek yogurt, blueberries, rolled oats, almonds. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "chia",
+  "name": "Banana Chia Pudding",
+  "prompt": "Overhead top-down food photograph of \"Banana Chia Pudding\", made with banana, blueberries, chia seeds, walnuts. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tofu-scramble",
+  "name": "Tofu Scramble on Toast",
+  "prompt": "Overhead top-down food photograph of \"Tofu Scramble on Toast\", made with firm tofu, bell pepper, whole-wheat bread, fresh spinach, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "cottage-toast",
+  "name": "Cottage Cheese & Apple Toast",
+  "prompt": "Overhead top-down food photograph of \"Cottage Cheese & Apple Toast\", made with cottage cheese, apple, whole-wheat bread, walnuts. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "chicken-bowl",
+  "name": "Grilled Chicken Rice Bowl",
+  "prompt": "Overhead top-down food photograph of \"Grilled Chicken Rice Bowl\", made with chicken breast, brown rice, broccoli florets. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "quinoa-salad",
+  "name": "Quinoa Chickpea Salad",
+  "prompt": "Overhead top-down food photograph of \"Quinoa Chickpea Salad\", made with quinoa, chickpeas, cucumber, tomatoes, fresh spinach. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tuna-wrap",
+  "name": "Tuna Avocado Wrap",
+  "prompt": "Overhead top-down food photograph of \"Tuna Avocado Wrap\", made with canned tuna in water, avocado, whole-wheat tortilla, tomatoes, mixed salad greens. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "lentil-soup",
+  "name": "Hearty Lentil Veggie Soup",
+  "prompt": "Overhead top-down food photograph of \"Hearty Lentil Veggie Soup\", made with lentils, tomatoes, carrot, onion, fresh spinach. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "taco-bowl",
+  "name": "Turkey Taco Bowl",
+  "prompt": "Overhead top-down food photograph of \"Turkey Taco Bowl\", made with ground turkey, black beans, brown rice, bell pepper, tomatoes, avocado. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "greek-salad",
+  "name": "Greek Salad with Feta & Chickpeas",
+  "prompt": "Overhead top-down food photograph of \"Greek Salad with Feta & Chickpeas\", made with chickpeas, cucumber, tomatoes, feta cheese, mixed salad greens, whole-wheat bread. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "salmon",
+  "name": "Baked Salmon, Sweet Potato & Broccoli",
+  "prompt": "Overhead top-down food photograph of \"Baked Salmon, Sweet Potato & Broccoli\", made with sweet potato, salmon fillet, broccoli florets. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "shrimp-zoodles",
+  "name": "Garlic Shrimp with Zucchini & Pasta",
+  "prompt": "Overhead top-down food photograph of \"Garlic Shrimp with Zucchini & Pasta\", made with zucchini, peeled shrimp, whole-wheat pasta, tomatoes. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "beef-stirfry",
+  "name": "Lean Beef & Vegetable Stir-fry",
+  "prompt": "Overhead top-down food photograph of \"Lean Beef & Vegetable Stir-fry\", made with beef strips, brown rice, bell pepper, mushrooms, broccoli florets. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tofu-stirfry",
+  "name": "Tofu & Veggie Stir-fry",
+  "prompt": "Overhead top-down food photograph of \"Tofu & Veggie Stir-fry\", made with firm tofu, brown rice, broccoli florets, carrot, bell pepper. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "chicken-pasta",
+  "name": "Chicken & Tomato Whole-Wheat Pasta",
+  "prompt": "Overhead top-down food photograph of \"Chicken & Tomato Whole-Wheat Pasta\", made with whole-wheat pasta, chicken breast, tomatoes, fresh spinach, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "cod-quinoa",
+  "name": "Lemon Baked Cod with Quinoa",
+  "prompt": "Overhead top-down food photograph of \"Lemon Baked Cod with Quinoa\", made with cod fillet, quinoa, zucchini. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "bean-chili",
+  "name": "Black Bean Sweet Potato Chili",
+  "prompt": "Overhead top-down food photograph of \"Black Bean Sweet Potato Chili\", made with black beans, sweet potato, tomatoes, bell pepper, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "mushroom-omelette",
+  "name": "Mushroom Spinach Feta Omelette",
+  "prompt": "Overhead top-down food photograph of \"Mushroom Spinach Feta Omelette\", made with eggs, mushrooms, fresh spinach, whole-wheat bread, feta cheese. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "apple-pb",
+  "name": "Apple Slices with Peanut Butter",
+  "prompt": "Overhead top-down food photograph of \"Apple Slices with Peanut Butter\", made with apple, peanut butter. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "yogurt-walnuts",
+  "name": "Greek Yogurt with Walnuts & Honey",
+  "prompt": "Overhead top-down food photograph of \"Greek Yogurt with Walnuts & Honey\", made with Greek yogurt, walnuts. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "hummus-veg",
+  "name": "Hummus & Veggie Sticks",
+  "prompt": "Overhead top-down food photograph of \"Hummus & Veggie Sticks\", made with carrot, cucumber, hummus, bell pepper. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "shake",
+  "name": "Banana Protein Shake",
+  "prompt": "Overhead top-down food photograph of \"Banana Protein Shake\", made with banana. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "eggs-tomato",
+  "name": "Boiled Eggs with Tomatoes",
+  "prompt": "Overhead top-down food photograph of \"Boiled Eggs with Tomatoes\", made with eggs, tomatoes. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "almond-apple",
+  "name": "Almonds & Apple",
+  "prompt": "Overhead top-down food photograph of \"Almonds & Apple\", made with apple, almonds. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "pancakes",
+  "name": "Banana Oat Protein Pancakes",
+  "prompt": "Overhead top-down food photograph of \"Banana Oat Protein Pancakes\", made with eggs, banana, Greek yogurt, blueberries, rolled oats. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "overnight-oats",
+  "name": "Raspberry Overnight Oats",
+  "prompt": "Overhead top-down food photograph of \"Raspberry Overnight Oats\", made with raspberries, rolled oats, chia seeds, almonds. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "avo-egg-toast",
+  "name": "Avocado & Egg Toast",
+  "prompt": "Overhead top-down food photograph of \"Avocado & Egg Toast\", made with eggs, avocado, whole-wheat bread, tomatoes. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "smoothie-bowl",
+  "name": "Strawberry Banana Smoothie Bowl",
+  "prompt": "Overhead top-down food photograph of \"Strawberry Banana Smoothie Bowl\", made with banana, strawberries, rolled oats, pumpkin seeds. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "shakshuka",
+  "name": "Tomato & Pepper Shakshuka",
+  "prompt": "Overhead top-down food photograph of \"Tomato & Pepper Shakshuka\", made with tomatoes, eggs, bell pepper, onion, whole-wheat bread, feta cheese. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "breakfast-burrito",
+  "name": "Black Bean Breakfast Burrito",
+  "prompt": "Overhead top-down food photograph of \"Black Bean Breakfast Burrito\", made with eggs, black beans, whole-wheat tortilla, bell pepper, mozzarella. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "egg-muffins",
+  "name": "Turkey & Veggie Egg Muffins",
+  "prompt": "Overhead top-down food photograph of \"Turkey & Veggie Egg Muffins\", made with eggs, sliced turkey breast, fresh spinach, bell pepper, whole-wheat bread. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "pb-banana-toast",
+  "name": "Peanut Butter Banana Toast",
+  "prompt": "Overhead top-down food photograph of \"Peanut Butter Banana Toast\", made with banana, whole-wheat bread, peanut butter, chia seeds. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tropical-yogurt",
+  "name": "Tropical Yogurt Bowl",
+  "prompt": "Overhead top-down food photograph of \"Tropical Yogurt Bowl\", made with Greek yogurt, mango, pineapple, rolled oats, ground flaxseed. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "savory-oats",
+  "name": "Savory Spinach & Egg Oatmeal",
+  "prompt": "Overhead top-down food photograph of \"Savory Spinach & Egg Oatmeal\", made with rolled oats, eggs, mushrooms, fresh spinach, grated parmesan. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tempeh-hash",
+  "name": "Tempeh Potato Hash",
+  "prompt": "Overhead top-down food photograph of \"Tempeh Potato Hash\", made with potatoes, tempeh, bell pepper, onion, fresh spinach. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "chicken-pita",
+  "name": "Chicken Hummus Pita",
+  "prompt": "Overhead top-down food photograph of \"Chicken Hummus Pita\", made with chicken breast, whole-wheat pita, cucumber, tomatoes, hummus, mixed salad greens. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "sardine-salad",
+  "name": "Sardine & White Bean Salad",
+  "prompt": "Overhead top-down food photograph of \"Sardine & White Bean Salad\", made with canned sardines, white beans, tomatoes, mixed salad greens, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "buddha-bowl",
+  "name": "Sweet Potato Chickpea Buddha Bowl",
+  "prompt": "Overhead top-down food photograph of \"Sweet Potato Chickpea Buddha Bowl\", made with quinoa, sweet potato, chickpeas, kale, tahini. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "caprese-chicken",
+  "name": "Caprese Chicken",
+  "prompt": "Overhead top-down food photograph of \"Caprese Chicken\", made with chicken breast, tomatoes, mozzarella, mixed salad greens. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "lentil-curry",
+  "name": "Coconut Lentil Curry",
+  "prompt": "Overhead top-down food photograph of \"Coconut Lentil Curry\", made with lentils, brown rice, tomatoes, fresh spinach, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "egg-salad-sandwich",
+  "name": "Light Egg Salad Sandwich",
+  "prompt": "Overhead top-down food photograph of \"Light Egg Salad Sandwich\", made with eggs, whole-wheat bread, Greek yogurt, cucumber, mixed salad greens. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "soba-salad",
+  "name": "Edamame Soba Noodle Salad",
+  "prompt": "Overhead top-down food photograph of \"Edamame Soba Noodle Salad\", made with soba noodles, shelled edamame, carrot, cabbage, cucumber, tahini. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "turkey-wrap",
+  "name": "Turkey Hummus Veggie Wrap",
+  "prompt": "Overhead top-down food photograph of \"Turkey Hummus Veggie Wrap\", made with sliced turkey breast, whole-wheat tortilla, tomatoes, cucumber, hummus, fresh spinach. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tuna-bean-salad",
+  "name": "Tuna & White Bean Salad",
+  "prompt": "Overhead top-down food photograph of \"Tuna & White Bean Salad\", made with canned tuna in water, white beans, tomatoes, mixed salad greens, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "chickpea-patties",
+  "name": "Baked Chickpea Patties with Tabbouleh",
+  "prompt": "Overhead top-down food photograph of \"Baked Chickpea Patties with Tabbouleh\", made with chickpeas, bulgur, tomatoes, cucumber, onion, rolled oats. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "stuffed-peppers",
+  "name": "Turkey & Rice Stuffed Peppers",
+  "prompt": "Overhead top-down food photograph of \"Turkey & Rice Stuffed Peppers\", made with bell pepper, ground turkey, brown rice, tomatoes, onion, mozzarella. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "cauli-fried-rice",
+  "name": "Egg & Cauliflower Fried Rice",
+  "prompt": "Overhead top-down food photograph of \"Egg & Cauliflower Fried Rice\", made with cauliflower, eggs, brown rice, green peas, carrot. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "minestrone",
+  "name": "Vegetable Minestrone",
+  "prompt": "Overhead top-down food photograph of \"Vegetable Minestrone\", made with white beans, tomatoes, whole-wheat pasta, carrot, zucchini, kale. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "turkey-meatballs",
+  "name": "Turkey Meatballs & Spaghetti",
+  "prompt": "Overhead top-down food photograph of \"Turkey Meatballs & Spaghetti\", made with tomatoes, ground turkey, whole-wheat pasta, onion, rolled oats, grated parmesan. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "pork-tenderloin",
+  "name": "Roast Pork Tenderloin with Potatoes",
+  "prompt": "Overhead top-down food photograph of \"Roast Pork Tenderloin with Potatoes\", made with potatoes, pork tenderloin, green beans. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "chicken-fajitas",
+  "name": "Chicken Fajitas",
+  "prompt": "Overhead top-down food photograph of \"Chicken Fajitas\", made with chicken breast, bell pepper, onion, whole-wheat tortilla, avocado. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tilapia-couscous",
+  "name": "Lemon Tilapia with Couscous & Asparagus",
+  "prompt": "Overhead top-down food photograph of \"Lemon Tilapia with Couscous & Asparagus\", made with tilapia fillet, whole-wheat couscous, asparagus. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "chicken-curry",
+  "name": "Light Chicken Curry",
+  "prompt": "Overhead top-down food photograph of \"Light Chicken Curry\", made with chicken breast, brown rice, tomatoes, onion, fresh spinach. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "stuffed-eggplant",
+  "name": "Lentil-Stuffed Eggplant",
+  "prompt": "Overhead top-down food photograph of \"Lentil-Stuffed Eggplant\", made with eggplant, lentils, tomatoes, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tempeh-noodles",
+  "name": "Tempeh Veggie Noodle Stir-fry",
+  "prompt": "Overhead top-down food photograph of \"Tempeh Veggie Noodle Stir-fry\", made with rice noodles, tempeh, cabbage, carrot, bell pepper. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "salmon-asparagus",
+  "name": "Salmon with Quinoa & Asparagus",
+  "prompt": "Overhead top-down food photograph of \"Salmon with Quinoa & Asparagus\", made with salmon fillet, asparagus, quinoa. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "zucchini-bake",
+  "name": "Zucchini Ricotta Pasta Bake",
+  "prompt": "Overhead top-down food photograph of \"Zucchini Ricotta Pasta Bake\", made with zucchini, tomatoes, ricotta, whole-wheat pasta, mozzarella, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "beef-chili",
+  "name": "Lean Beef & Bean Chili",
+  "prompt": "Overhead top-down food photograph of \"Lean Beef & Bean Chili\", made with tomatoes, kidney beans, beef strips, bell pepper, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "shrimp-fried-rice",
+  "name": "Shrimp Fried Rice",
+  "prompt": "Overhead top-down food photograph of \"Shrimp Fried Rice\", made with peeled shrimp, brown rice, green peas, eggs, carrot. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "chickpea-curry",
+  "name": "Chickpea & Spinach Curry",
+  "prompt": "Overhead top-down food photograph of \"Chickpea & Spinach Curry\", made with chickpeas, tomatoes, brown rice, fresh spinach, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "sheet-pan-chicken",
+  "name": "Sheet-Pan Chicken & Veggies",
+  "prompt": "Overhead top-down food photograph of \"Sheet-Pan Chicken & Veggies\", made with chicken breast, potatoes, broccoli florets, carrot. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "bean-tacos",
+  "name": "Black Bean & Slaw Tacos",
+  "prompt": "Overhead top-down food photograph of \"Black Bean & Slaw Tacos\", made with black beans, whole-wheat tortilla, cabbage, tomatoes, avocado, sweetcorn. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "stuffed-squash",
+  "name": "Quinoa-Stuffed Butternut Squash",
+  "prompt": "Overhead top-down food photograph of \"Quinoa-Stuffed Butternut Squash\", made with butternut squash, quinoa, kale, feta cheese, walnuts. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "soy-ginger-salmon",
+  "name": "Soy-Ginger Salmon & Rice",
+  "prompt": "Overhead top-down food photograph of \"Soy-Ginger Salmon & Rice\", made with salmon fillet, brown rice, green beans. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "bulgur-pilaf",
+  "name": "Mushroom & Pea Bulgur Pilaf",
+  "prompt": "Overhead top-down food photograph of \"Mushroom & Pea Bulgur Pilaf\", made with bulgur, mushrooms, green peas, onion, walnuts. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "cottage-pineapple",
+  "name": "Cottage Cheese & Pineapple",
+  "prompt": "Overhead top-down food photograph of \"Cottage Cheese & Pineapple\", made with cottage cheese, pineapple. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "edamame",
+  "name": "Salted Edamame",
+  "prompt": "Overhead top-down food photograph of \"Salted Edamame\", made with shelled edamame. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "roasted-chickpeas",
+  "name": "Crispy Roasted Chickpeas",
+  "prompt": "Overhead top-down food photograph of \"Crispy Roasted Chickpeas\", made with chickpeas. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "date-bites",
+  "name": "Cocoa Date Energy Bites",
+  "prompt": "Overhead top-down food photograph of \"Cocoa Date Energy Bites\", made with pitted dates, rolled oats, peanut butter. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "turkey-rollups",
+  "name": "Turkey Cucumber Roll-ups",
+  "prompt": "Overhead top-down food photograph of \"Turkey Cucumber Roll-ups\", made with cucumber, sliced turkey breast, hummus. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "orange-cashews",
+  "name": "Orange & Cashews",
+  "prompt": "Overhead top-down food photograph of \"Orange & Cashews\", made with orange, cashews. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tuna-cucumber",
+  "name": "Tuna Cucumber Bites",
+  "prompt": "Overhead top-down food photograph of \"Tuna Cucumber Bites\", made with cucumber, canned tuna in water, Greek yogurt. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "ricotta-berries",
+  "name": "Ricotta with Strawberries",
+  "prompt": "Overhead top-down food photograph of \"Ricotta with Strawberries\", made with strawberries, ricotta. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "trail-mix",
+  "name": "Seed & Date Trail Mix",
+  "prompt": "Overhead top-down food photograph of \"Seed & Date Trail Mix\", made with pumpkin seeds, pitted dates, almonds. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "ful-medames",
+  "name": "Ful Medames",
+  "prompt": "Overhead top-down food photograph of \"Ful Medames\", made with fava beans (ful), tomatoes, whole-wheat bread, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "manakish",
+  "name": "Za'atar Manakish with Labneh",
+  "prompt": "Overhead top-down food photograph of \"Za'atar Manakish with Labneh\", made with tomatoes, whole-wheat pita, labneh (strained yogurt), cucumber. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "eggs-sujuk-style",
+  "name": "Eggs with Tomato & Onion (Beid bi Banadoura)",
+  "prompt": "Overhead top-down food photograph of \"Eggs with Tomato & Onion (Beid bi Banadoura)\", made with tomatoes, eggs, whole-wheat pita, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "labneh-plate",
+  "name": "Labneh Breakfast Plate",
+  "prompt": "Overhead top-down food photograph of \"Labneh Breakfast Plate\", made with labneh (strained yogurt), cucumber, tomatoes, whole-wheat bread. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "hummus-egg-plate",
+  "name": "Hummus Plate with Boiled Egg",
+  "prompt": "Overhead top-down food photograph of \"Hummus Plate with Boiled Egg\", made with hummus, eggs, cucumber, tomatoes, whole-wheat pita. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tabbouleh-chicken",
+  "name": "Tabbouleh with Grilled Chicken",
+  "prompt": "Overhead top-down food photograph of \"Tabbouleh with Grilled Chicken\", made with chicken breast, bulgur, tomatoes, fresh parsley, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "fattoush",
+  "name": "Fattoush Salad",
+  "prompt": "Overhead top-down food photograph of \"Fattoush Salad\", made with tomatoes, cucumber, mixed salad greens, chickpeas, whole-wheat pita, fresh parsley. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "mujaddara",
+  "name": "Mujaddara (Lentils & Rice)",
+  "prompt": "Overhead top-down food photograph of \"Mujaddara (Lentils & Rice)\", made with lentils, brown rice, onion, cucumber. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "koshari",
+  "name": "Egyptian Koshari",
+  "prompt": "Overhead top-down food photograph of \"Egyptian Koshari\", made with tomatoes, lentils, brown rice, whole-wheat pasta, chickpeas, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "shawarma-bowl",
+  "name": "Chicken Shawarma Bowl",
+  "prompt": "Overhead top-down food photograph of \"Chicken Shawarma Bowl\", made with chicken breast, brown rice, cucumber, tomatoes, Greek yogurt. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "baba-ganoush-plate",
+  "name": "Baba Ganoush & Chickpea Plate",
+  "prompt": "Overhead top-down food photograph of \"Baba Ganoush & Chickpea Plate\", made with eggplant, chickpeas, tomatoes, whole-wheat pita, tahini. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "shorbat-adas",
+  "name": "Shorbat Adas (Lentil Soup)",
+  "prompt": "Overhead top-down food photograph of \"Shorbat Adas (Lentil Soup)\", made with lentils, potatoes, carrot, onion, whole-wheat bread. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "fatteh-chickpea",
+  "name": "Chickpea Fatteh",
+  "prompt": "Overhead top-down food photograph of \"Chickpea Fatteh\", made with chickpeas, Greek yogurt, whole-wheat pita, tahini, almonds. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "kofta-tray",
+  "name": "Baked Kofta with Vegetables",
+  "prompt": "Overhead top-down food photograph of \"Baked Kofta with Vegetables\", made with tomatoes, lamb, bell pepper, brown rice, onion, fresh parsley. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "shish-tawook",
+  "name": "Shish Tawook with Rice",
+  "prompt": "Overhead top-down food photograph of \"Shish Tawook with Rice\", made with chicken breast, brown rice, bell pepper, Greek yogurt, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "okra-stew",
+  "name": "Bamya (Okra & Tomato Stew)",
+  "prompt": "Overhead top-down food photograph of \"Bamya (Okra & Tomato Stew)\", made with okra, tomatoes, brown rice, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "molokhia",
+  "name": "Molokhia with Chicken",
+  "prompt": "Overhead top-down food photograph of \"Molokhia with Chicken\", made with molokhia (jute leaves), chicken breast, brown rice, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "sayadieh",
+  "name": "Sayadieh (Fish & Spiced Rice)",
+  "prompt": "Overhead top-down food photograph of \"Sayadieh (Fish & Spiced Rice)\", made with cod fillet, brown rice, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "freekeh-chicken",
+  "name": "Freekeh with Chicken & Vegetables",
+  "prompt": "Overhead top-down food photograph of \"Freekeh with Chicken & Vegetables\", made with freekeh, chicken breast, carrot, green peas, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "stuffed-zucchini",
+  "name": "Stuffed Zucchini (Koussa Mahshi)",
+  "prompt": "Overhead top-down food photograph of \"Stuffed Zucchini (Koussa Mahshi)\", made with zucchini, tomatoes, lamb, brown rice, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "grape-leaves",
+  "name": "Stuffed Grape Leaves (Warak Enab)",
+  "prompt": "Overhead top-down food photograph of \"Stuffed Grape Leaves (Warak Enab)\", made with brown rice, grape leaves, tomatoes, fresh parsley. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "lamb-okra",
+  "name": "Lamb & Tomato Stew with Bulgur",
+  "prompt": "Overhead top-down food photograph of \"Lamb & Tomato Stew with Bulgur\", made with tomatoes, bulgur, lamb, onion. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "tahini-fish",
+  "name": "Baked Fish with Tahini & Vegetables",
+  "prompt": "Overhead top-down food photograph of \"Baked Fish with Tahini & Vegetables\", made with tilapia fillet, tomatoes, potatoes, onion, tahini. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "labneh-cucumber",
+  "name": "Labneh with Cucumber",
+  "prompt": "Overhead top-down food photograph of \"Labneh with Cucumber\", made with cucumber, labneh (strained yogurt). Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "dates-almonds",
+  "name": "Dates & Almonds",
+  "prompt": "Overhead top-down food photograph of \"Dates & Almonds\", made with pitted dates, almonds. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "balila",
+  "name": "Balila (Warm Spiced Chickpeas)",
+  "prompt": "Overhead top-down food photograph of \"Balila (Warm Spiced Chickpeas)\", made with chickpeas. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ },
+ {
+  "id": "hummus-pita",
+  "name": "Hummus with Pita & Cucumber",
+  "prompt": "Overhead top-down food photograph of \"Hummus with Pita & Cucumber\", made with cucumber, hummus, whole-wheat pita. Served on a plain white plate (or bowl/glass if it is a soup, bowl or drink) on a light wooden table, soft natural window light, appetizing, realistic, shallow depth of field. Only show the listed ingredients. No text, no logos, no hands, no cutlery. Square 1:1 image."
+ }
+]
