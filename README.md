@@ -18,4 +18,3 @@ Estimates only — not medical advice.
 `tools/photo-helper.html` makes recipe photos with the Gemini API (your own API key; automatic) or with the Gemini app by drag-and-drop (manual).
 Serve the repo (`python3 -m http.server`), open `http://localhost:8000/tools/photo-helper.html` in Chrome or Edge, choose the `photos/` folder, and start.
 Prompt lists: `photos/prompts.json` (103 hand-written recipes) and `photos/prompts-all.json` (all 5,103).
-`tools/gemini_bot.py` is an optional browser bot that drives the Gemini website in a visible browser, signed in as you (against Google's terms; use at your own risk, untested on the live site). See the notes at the top of the file.
